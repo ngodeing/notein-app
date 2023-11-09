@@ -14,8 +14,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 function HomeScreen({ navigation }) {
   React.useEffect(() => {
     const timeout = setTimeout(() => {
-      navigation.navigate('EditText');
-    }, 500);
+      navigation.navigate('Detail');
+    }, 1000);
 
     return () => clearTimeout(timeout);
   }, [navigation]);
@@ -25,7 +25,10 @@ function HomeScreen({ navigation }) {
       colors={['#202326', '#1C9DBE']}
       style={styles.container}
     >
+      <Pressable
+    onPress={() => navigation.navigate('Detail')}>
       <Text style={styles.judulTengah}>NOTEin</Text>
+      </Pressable>
     </LinearGradient>
   );
 }
@@ -82,10 +85,10 @@ function PrimaryScreen({navigation}) {
       <Text style={styles.judul2Kiri}>Hello User</Text>
       <Pressable
         style={styles.cardPanjang} flexDirection= 'row' gap={20}
-        onPress={() => navigation.navigate('Login')}>
+        onPress={() => navigation.navigate('EditText')}>
         <View style={{justifyContent:'flex-start'}}>
-        <Text style={styles.textCP}>Today's Progress</Text>
-        <Text style={styles.paragraphCP}>You have completed 5 of the 8 task, keep up the progress!!</Text>
+        <Text style={styles.textCP}>Progress Hari ini</Text>
+        <Text style={styles.paragraphCP}>Kamu telah menyelesaikan tugas sebanyak 75% Teruskan!</Text>
         </View>
         <View style={styles.progressContainer}>
           <LinearGradient
@@ -100,7 +103,7 @@ function PrimaryScreen({navigation}) {
         <View style={{flexDirection:'row', gap:20}}>
         <Pressable
         style={styles.cardPendek}
-        onPress={() => navigation.navigate('Login')}>
+        onPress={() => navigation.navigate('EditText')}>
         <Image
         style={styles.imageKecil}
         source={require('./assets/notego.png')}
@@ -110,23 +113,23 @@ function PrimaryScreen({navigation}) {
         </Pressable>
         <Pressable
         style={styles.cardPendek}
-        onPress={() => navigation.navigate('Login')}>
+        onPress={() => navigation.navigate('EditText')}>
         <Image
         style={styles.imageKecil}
-        source={require('./assets/notego.png')}
+        source={require('./assets/notegoo.png')}
       />
         <Text style={styles.textCD}>To do List</Text>
         <Text style={styles.paragraphCD}>10 List</Text>
         </Pressable>
         </View>
 
-        <Text style={styles.judul2Kiri}>Pending Task</Text>
+        <Text style={styles.judul2Kiri}>Terbaru</Text>
 
         {data.map((item, index) => (
         <Pressable
           key={index}
-          style={styles.cardPanjang}
-          onPress={() => navigation.navigate('Login')}
+          style={styles.card}
+          onPress={() => navigation.navigate('EditText')}
         >
           <Text style={styles.textCP}>{item.title}</Text>
           <Text style={styles.paragraphCP}>{item.paragraph}</Text>
@@ -154,7 +157,7 @@ function EditTextScreen({navigation}) {
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#202326', paddingTop:80 }}>
       <Pressable
         style={{flex: 1, flexDirection: 'row', width: 370, justifyContent: 'space-between' , marginBottom: 50}}
-        onPress={() => navigation.navigate('Login')}>
+        onPress={() => navigation.navigate('Primary')}>
           <Image
         style={{width: 20, height: 20, marginLeft: 20, justifyContent: 'flex-start'}}
         source={require('./assets/back.png')}
@@ -166,7 +169,8 @@ function EditTextScreen({navigation}) {
         </Pressable>
       </View>
       <TextInput
-        style={{ fontSize: 30, fontWeight: 'bold', textAlign: 'left', marginBottom: 30, marginLeft: 30, color: 'white', width: 300, height: 20 + (calculateNumberOfLinesjudul()*35) }}
+        style={{ fontSize: 30, fontWeight: 'bold', textAlign: 'left', marginBottom: 20, marginLeft: 30, color: 'white', width: 300,
+        height: 20 + (calculateNumberOfLinesjudul()*35) }}
         placeholder="Tambahkan Judul"
         multiline={true}
         value={textjudul}
@@ -319,6 +323,15 @@ const styles = StyleSheet.create({
     width: 340,
     backgroundColor: '#2F3235',
   },
+  card: {
+    paddingVertical: 15,
+    gap: 5,
+    paddingHorizontal: 20,
+    marginBottom: 30,
+    borderRadius: 15,
+    width: 340,
+    backgroundColor: '#2F3235',
+  },
   cardPendek: {
     paddingVertical: 25,
     paddingHorizontal: 25,
@@ -346,7 +359,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     width: 170,
-    marginBottom: 15,
+    marginBottom: 10,
   },
   textCD:{
     color: 'white',
