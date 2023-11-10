@@ -98,7 +98,8 @@ function LoginScreen2({ navigation }) {
 
 function PrimaryScreen({navigation}) {
   return (
-    <ScrollView backgroundColor= '#202326'>
+    <View style={{ flex: 1, backgroundColor: '#202326' }}>
+      <ScrollView>
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#202326', paddingTop:80 }}>
       <Text style={styles.judul2Kiri}>Hello User</Text>
       <Pressable
@@ -155,6 +156,17 @@ function PrimaryScreen({navigation}) {
       ))}
     </View>
     </ScrollView>
+    <View style={styles.addButtonContainer}>
+        <Pressable
+          style={styles.addButton}
+          onPress={() => navigation.navigate('EditText')}
+        >
+          <Text style={styles.addButtonText}>+</Text>
+        </Pressable>
+      </View>
+    </View>
+    
+    
   );
 }
 
@@ -399,7 +411,26 @@ const styles = StyleSheet.create({
     color: 'white',
     width: 320,
     marginBottom: 10,
-  }
+  },
+  addButtonContainer: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+  },
+  addButton: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#007DFF',
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 5,
+  },
+  addButtonText: {
+    color: 'white',
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
   }
   
 );
