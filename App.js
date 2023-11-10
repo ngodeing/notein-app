@@ -272,7 +272,7 @@ function NoteCategories({ navigation }) {
     <View style={styles.addButtonContainer}>
         <Pressable
           style={styles.addButton}
-          onPress={() => navigation.navigate('NoteC')}
+          onPress={() => navigation.navigate('EditText')}
         >
           <Text style={styles.addButtonText}>+</Text>
         </Pressable>
