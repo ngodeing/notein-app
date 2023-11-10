@@ -152,7 +152,7 @@ function PrimaryScreen({navigation}) {
           style={styles.card}
           onPress={() => navigation.navigate('EditText')}
         >
-          <Text style={styles.textCP}>{item.title}</Text>
+          <Text style={styles.textKiri}>{item.title}</Text>
           <Text style={styles.paragraphCP}>{item.paragraph}</Text>
         </Pressable>
       ))}
@@ -253,9 +253,56 @@ function NoteCategories({ navigation }) {
             key={index}
             style={styles.cardPendek}
             marginBottom = {0}
-            onPress={() => navigation.navigate('Primary')}>
+            onPress={() => navigation.navigate('Notes')}>
             <Text style={styles.textCD}>{category.title}</Text>
             <Text style={styles.paragraphCD}>{category.notes}</Text>
+          </Pressable>
+        ))}
+        </View>
+      </View>
+    </ScrollView>
+    <View style={styles.addButtonContainer}>
+        <Pressable
+          style={styles.addButton}
+          onPress={() => navigation.navigate('EditText')}
+        >
+          <Text style={styles.addButtonText}>+</Text>
+        </Pressable>
+      </View>
+    </View>
+  )
+}
+
+function NotesScreen({ navigation }) {
+  const notes = [
+    { title: "Mengerjakan Kuis Seni Budaya", notes: "jangan lupa jam 9 untuk sesi 1 dan jam 10 untuk sesi 3" },
+    { title: "4 Hal yang perlu dibawa", notes: "jangan lupa jam 9 untuk sesi 1 dan jam 10 untuk sesi 3" },
+    { title: "Tugas Akhir IMK", notes: "jangan lupa jam 9 untuk sesi 1 dan jam 10 untuk sesi 3" },
+    { title: "Presentasi KWU", notes: "jangan lupa jam 9 untuk sesi 1 dan jam 10 untuk sesi 3" },
+    // Tambahkan lebih banyak kategori jika diperlukan
+  ];
+
+  return (
+    <View style={{ backgroundColor: '#202326', flex:1, }}>
+    <ScrollView>
+            <Pressable
+        style={{flex: 1, flexDirection: 'row', width: 370, justifyContent: 'space-between' , marginTop:70, marginBottom:50}}
+        onPress={() => navigation.navigate('Primary')}>
+          <Image
+        style={{width: 20, height: 20, marginLeft: 20, justifyContent: 'flex-start'}}
+        source={require('./assets/back.png')}
+      />
+        </Pressable>
+      <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#202326', paddingTop: 0 }}>
+        <Text style={styles.judulKiri}>Study</Text>
+        <View style={{flexDirection:'row', flexWrap:"wrap", justifyContent:"center"}}>
+        {notes.map((notes, index) => (
+          <Pressable
+            key={index}
+            style={styles.card}
+            onPress={() => navigation.navigate('Primary')}>
+            <Text style={styles.textKiri}>{notes.title}</Text>
+            <Text style={styles.paragraph}>{notes.notes}</Text>
           </Pressable>
         ))}
         </View>
@@ -327,6 +374,7 @@ function App() {
         <Stack.Screen name="EditText" component={EditTextScreen} options={{ headerShown: false }}/>
         <Stack.Screen name="Login2" component={LoginScreen2} options={{ headerShown: false }}/>
         <Stack.Screen name="NoteC" component={NoteCategories} options={{ headerShown: false }}/>
+        <Stack.Screen name="Notes" component={NotesScreen} options={{ headerShown: false }}/>
         <Stack.Screen name="TrashFile" component={TrashFiles} options={{ headerShown: false }}/>
       </Stack.Navigator>
     </NavigationContainer>
@@ -401,7 +449,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'gray',
     width: 320,
-    marginBottom: 50,
   },
   paragraphCP: {
     fontWeight: 'medium',
@@ -440,7 +487,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     gap: 5,
     paddingHorizontal: 20,
-    marginBottom: 30,
+    marginBottom: 25,
     borderRadius: 15,
     width: 340,
     backgroundColor: '#2F3235',
