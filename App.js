@@ -98,7 +98,8 @@ function LoginScreen2({ navigation }) {
 
 function PrimaryScreen({navigation}) {
   return (
-    <ScrollView backgroundColor= '#202326'>
+    <View style={{ flex: 1, backgroundColor: '#202326' }}>
+      <ScrollView>
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#202326', paddingTop:80 }}>
       <Text style={styles.judul2Kiri}>Hello User</Text>
       <Pressable
@@ -121,6 +122,7 @@ function PrimaryScreen({navigation}) {
         <View style={{flexDirection:'row', gap:20}}>
         <Pressable
         style={styles.cardPendek}
+        marginBottom = {30}
         onPress={() => navigation.navigate('EditText')}>
         <Image
         style={styles.imageKecil}
@@ -131,6 +133,7 @@ function PrimaryScreen({navigation}) {
         </Pressable>
         <Pressable
         style={styles.cardPendek}
+        marginBottom = {30}
         onPress={() => navigation.navigate('EditText')}>
         <Image
         style={styles.imageKecil}
@@ -155,6 +158,17 @@ function PrimaryScreen({navigation}) {
       ))}
     </View>
     </ScrollView>
+    <View style={styles.addButtonContainer}>
+        <Pressable
+          style={styles.addButton}
+          onPress={() => navigation.navigate('NoteC')}
+        >
+          <Text style={styles.addButtonText}>+</Text>
+        </Pressable>
+      </View>
+    </View>
+    
+    
   );
 }
 
@@ -229,21 +243,41 @@ function NoteCategories({ navigation }) {
   ];
 
   return (
-    <ScrollView style={{ backgroundColor: '#202326' }}>
-      <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#202326', paddingTop: 80 }}>
-        <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'white', marginBottom: 20 }}>Notes</Text>
-        
+    <View style={{ backgroundColor: '#202326', flex:1, }}>
+    <ScrollView>
+            <Pressable
+        style={{flex: 1, flexDirection: 'row', width: 370, justifyContent: 'space-between' , marginTop:70, marginBottom:50}}
+        onPress={() => navigation.navigate('Primary')}>
+          <Image
+        style={{width: 20, height: 20, marginLeft: 20, justifyContent: 'flex-start'}}
+        source={require('./assets/back.png')}
+      />
+        </Pressable>
+      <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#202326', paddingTop: 0 }}>
+        <Text style={styles.judulKiri}>Notes</Text>
+        <View style={{flexDirection:'row', gap:30, flexWrap:"wrap", justifyContent:"center"}}>
         {categories.map((category, index) => (
           <Pressable
             key={index}
-            style={{ flexDirection: 'row', width: 370, justifyContent: 'space-between', marginBottom: 10 }}
+            style={styles.cardPendek}
+            marginBottom = {0}
             onPress={() => navigation.navigate('Primary')}>
-            <Text style={{ color: 'white' }}>{category.title}</Text>
-            <Text style={{ color: 'white' }}>{category.notes} notes</Text>
+            <Text style={styles.textCD}>{category.title}</Text>
+            <Text style={styles.paragraphCD}>{category.notes}</Text>
           </Pressable>
         ))}
+        </View>
       </View>
     </ScrollView>
+    <View style={styles.addButtonContainer}>
+        <Pressable
+          style={styles.addButton}
+          onPress={() => navigation.navigate('NoteC')}
+        >
+          <Text style={styles.addButtonText}>+</Text>
+        </Pressable>
+      </View>
+    </View>
   )
 }
 
@@ -382,10 +416,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#2F3235',
   },
   cardPendek: {
-    paddingVertical: 25,
+    paddingVertical: 15,
     paddingHorizontal: 25,
-    borderRadius: 25,
-    marginBottom: 30,
+    borderRadius: 15,
     width: 160,
     backgroundColor: '#2F3235',
   },
@@ -429,7 +462,26 @@ const styles = StyleSheet.create({
     color: 'white',
     width: 320,
     marginBottom: 10,
-  }
+  },
+  addButtonContainer: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+  },
+  addButton: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#007DFF',
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 5,
+  },
+  addButtonText: {
+    color: 'white',
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
   }
   
 );
