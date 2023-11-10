@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image, Pressable, TextInput, ScrollView} from 'react-native';
+import { View, Text, StyleSheet, Image, Pressable, TextInput, ScrollView, TouchableOpacity} from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -123,24 +123,24 @@ function PrimaryScreen({navigation}) {
         <Pressable
         style={styles.cardPendek}
         marginBottom = {30}
-        onPress={() => navigation.navigate('EditText')}>
+        onPress={() => navigation.navigate('NoteC')}>
         <Image
         style={styles.imageKecil}
         source={require('./assets/notego.png')}
       />
-        <Text style={styles.textCD}>Notes</Text>
-        <Text style={styles.paragraphCD}>10 Notes</Text>
+        <Text style={styles.textCD}>Kategori</Text>
+        <Text style={styles.paragraphCD}>5 Kategori</Text>
         </Pressable>
         <Pressable
         style={styles.cardPendek}
         marginBottom = {30}
-        onPress={() => navigation.navigate('EditText')}>
+        onPress={() => navigation.navigate('TrashFile')}>
         <Image
         style={styles.imageKecil}
-        source={require('./assets/notegoo.png')}
+        source={require('./assets/t4sampahputih.png')}
       />
-        <Text style={styles.textCD}>To do List</Text>
-        <Text style={styles.paragraphCD}>10 List</Text>
+        <Text style={styles.textCD}>Sampah</Text>
+        <Text style={styles.paragraphCD}>2 note's</Text>
         </Pressable>
         </View>
 
@@ -158,14 +158,6 @@ function PrimaryScreen({navigation}) {
       ))}
     </View>
     </ScrollView>
-    <View style={styles.addButtonContainer}>
-        <Pressable
-          style={styles.addButton}
-          onPress={() => navigation.navigate('NoteC')}
-        >
-          <Text style={styles.addButtonText}>+</Text>
-        </Pressable>
-      </View>
     </View>
     
     
@@ -254,7 +246,7 @@ function NoteCategories({ navigation }) {
       />
         </Pressable>
       <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#202326', paddingTop: 0 }}>
-        <Text style={styles.judulKiri}>Notes</Text>
+        <Text style={styles.judulKiri}>Kategori</Text>
         <View style={{flexDirection:'row', gap:20, flexWrap:"wrap", justifyContent:"center"}}>
         {categories.map((category, index) => (
           <Pressable
@@ -281,6 +273,43 @@ function NoteCategories({ navigation }) {
   )
 }
 
+function TrashFiles({ navigation }) {
+  const categories = [
+    { title: "Desigm System"},
+    { title: "Gestalt Principles"},
+    // Tambahkan lebih banyak kategori jika diperlukan
+  ];
+
+  return (
+    <View style={{ backgroundColor: '#202326', flex:1, }}>
+    <ScrollView>
+            <Pressable
+        style={{flex: 1, flexDirection: 'row', width: 370, justifyContent: 'space-between' , marginTop:70, marginBottom:50}}
+        onPress={() => navigation.navigate('Primary')}>
+          <Image
+        style={{width: 20, height: 20, marginLeft: 20, justifyContent: 'flex-start'}}
+        source={require('./assets/back.png')}
+      />
+        </Pressable>
+      <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#202326', paddingTop: 0 }}>
+        <Text style={styles.judulKiri}>Trash note's</Text>
+        <View style={{flexDirection:'row', gap:20, flexWrap:"wrap", justifyContent:"center"}}>
+        {categories.map((category, index) => (
+          <Pressable
+            key={index}
+            style={styles.cardPendek}
+            marginBottom = {0}
+            onPress={() => navigation.navigate('Primary')}>
+            <Text style={styles.textCD}>{category.title}</Text>
+            <Text style={styles.paragraphCD}>{category.notes}</Text>
+          </Pressable>
+        ))}
+        </View>
+      </View>
+    </ScrollView>
+    </View>
+  )
+}
 
 // Buat navigator
 function App() {
@@ -298,6 +327,7 @@ function App() {
         <Stack.Screen name="EditText" component={EditTextScreen} options={{ headerShown: false }}/>
         <Stack.Screen name="Login2" component={LoginScreen2} options={{ headerShown: false }}/>
         <Stack.Screen name="NoteC" component={NoteCategories} options={{ headerShown: false }}/>
+        <Stack.Screen name="TrashFile" component={TrashFiles} options={{ headerShown: false }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
