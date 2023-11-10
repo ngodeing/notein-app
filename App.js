@@ -255,7 +255,7 @@ function NoteCategories({ navigation }) {
         </Pressable>
       <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#202326', paddingTop: 0 }}>
         <Text style={styles.judulKiri}>Notes</Text>
-        <View style={{flexDirection:'row', gap:30, flexWrap:"wrap", justifyContent:"center"}}>
+        <View style={{flexDirection:'row', gap:20, flexWrap:"wrap", justifyContent:"center"}}>
         {categories.map((category, index) => (
           <Pressable
             key={index}
