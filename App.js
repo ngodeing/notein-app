@@ -54,7 +54,7 @@ function DetailScreen({ navigation }) {
 
 function LoginScreen({ navigation }) {
   const handleNavigation = () => {
-    navigation.navigate('Primary');
+    navigation.navigate('Login2');
   };
 
   return (
@@ -74,6 +74,24 @@ function LoginScreen({ navigation }) {
       <Text style={styles.text2} marginTop={20} marginBottom={-50}>Sudah punya akun?
         <Text style={styles.masuk} onPress={handleNavigation}> Masuk</Text>
       </Text>
+    </View>
+  );
+}
+
+function LoginScreen2({ navigation }) {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#202326' }}>
+      <Text style={styles.judulKiri}>Login</Text>
+      <Text style={styles.textKiri}>Email</Text>
+      <TextInput style={styles.input} placeholder="Masukkan Email" placeholderTextColor="grey"/>
+      <Text style={styles.textKiri}>Kata Sandi</Text>
+      <TextInput style={styles.input} placeholder="Masukkan Kata Sandi" secureTextEntry={true} placeholderTextColor="grey" marginBottom= {150} />
+      <Pressable
+        style={styles.button}
+        marginTop={-100}
+        onPress={() => navigation.navigate('Primary')}>
+        <Text style={styles.text}>  Login  </Text>
+        </Pressable>
     </View>
   );
 }
@@ -215,6 +233,7 @@ function App() {
         <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }}/>
         <Stack.Screen name="Primary" component={PrimaryScreen} options={{ headerShown: false }}/>
         <Stack.Screen name="EditText" component={EditTextScreen} options={{ headerShown: false }}/>
+        <Stack.Screen name="Login2" component={LoginScreen2} options={{ headerShown: false }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
