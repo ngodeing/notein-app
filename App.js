@@ -36,7 +36,7 @@ function DetailScreen({ navigation }) {
       <Text style={styles.paragraph}>Tulis semua catatanmu dengan mudah dan sederhana hanya disini!</Text>
       <Pressable
         style={styles.button}
-        onPress={() => navigation.navigate('Login')}>
+        onPress={() => navigation.navigate('Notes')}>
         <Text style={styles.text}>Ayo Mulai</Text>
         </Pressable>
     </View>
@@ -69,6 +69,55 @@ function LoginScreen({ navigation }) {
   );
 }
 
+function Notes() {
+  const data = [
+    {
+      judul: 'Belanja',
+      jumlah: 2,
+    },
+    {
+      judul: 'Tugas',
+      jumlah: 1,
+    },
+    {
+      judul: 'Meeting',
+      jumlah: 3,
+    },
+    {
+      judul: 'Daftar film',
+      jumlah: 5,
+    },
+  ];
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#202326' }}>
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+        {data.map((note, index) => (
+          <Pressable
+            key={index}
+            style={{
+              width: '33%',
+              height: 100,
+              padding: 10,
+              margin: 5,
+              borderRadius: 5,
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: '#fff',
+            }}
+            onPress={() => {
+              // Do something when the button is pressed
+            }}
+          >
+            <Text style={{ fontSize: 20 }}>{note.judul}</Text>
+            <Text style={{ fontSize: 15 }}>{note.jumlah}</Text>
+          </Pressable>
+        ))}
+      </View>
+    </View>
+  );
+}
+
+
 const Stack = createStackNavigator();
 
 // Buat navigator
@@ -83,6 +132,7 @@ function App() {
         />
         <Stack.Screen name="Detail" component={DetailScreen} options={{ headerShown: false }}/>
         <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }}/>
+        <Stack.Screen name="Notes" component={Notes} options={{ headerShown: false }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
