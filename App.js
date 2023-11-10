@@ -122,6 +122,7 @@ function PrimaryScreen({navigation}) {
         <View style={{flexDirection:'row', gap:20}}>
         <Pressable
         style={styles.cardPendek}
+        marginBottom = {30}
         onPress={() => navigation.navigate('EditText')}>
         <Image
         style={styles.imageKecil}
@@ -132,6 +133,7 @@ function PrimaryScreen({navigation}) {
         </Pressable>
         <Pressable
         style={styles.cardPendek}
+        marginBottom = {30}
         onPress={() => navigation.navigate('EditText')}>
         <Image
         style={styles.imageKecil}
@@ -159,7 +161,7 @@ function PrimaryScreen({navigation}) {
     <View style={styles.addButtonContainer}>
         <Pressable
           style={styles.addButton}
-          onPress={() => navigation.navigate('EditText')}
+          onPress={() => navigation.navigate('NoteC')}
         >
           <Text style={styles.addButtonText}>+</Text>
         </Pressable>
@@ -231,6 +233,55 @@ function EditTextScreen({navigation}) {
 
 const Stack = createStackNavigator();
 
+function NoteCategories({ navigation }) {
+  const categories = [
+    { title: "Study", notes: 10 },
+    { title: "Personal", notes: 5 },
+    { title: "UI/UX Design", notes: 10 },
+    { title: "Blog Post", notes: 5 },
+    // Tambahkan lebih banyak kategori jika diperlukan
+  ];
+
+  return (
+    <View style={{ backgroundColor: '#202326', flex:1, }}>
+    <ScrollView>
+            <Pressable
+        style={{flex: 1, flexDirection: 'row', width: 370, justifyContent: 'space-between' , marginTop:70, marginBottom:50}}
+        onPress={() => navigation.navigate('Primary')}>
+          <Image
+        style={{width: 20, height: 20, marginLeft: 20, justifyContent: 'flex-start'}}
+        source={require('./assets/back.png')}
+      />
+        </Pressable>
+      <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#202326', paddingTop: 0 }}>
+        <Text style={styles.judulKiri}>Notes</Text>
+        <View style={{flexDirection:'row', gap:20, flexWrap:"wrap", justifyContent:"center"}}>
+        {categories.map((category, index) => (
+          <Pressable
+            key={index}
+            style={styles.cardPendek}
+            marginBottom = {0}
+            onPress={() => navigation.navigate('Primary')}>
+            <Text style={styles.textCD}>{category.title}</Text>
+            <Text style={styles.paragraphCD}>{category.notes}</Text>
+          </Pressable>
+        ))}
+        </View>
+      </View>
+    </ScrollView>
+    <View style={styles.addButtonContainer}>
+        <Pressable
+          style={styles.addButton}
+          onPress={() => navigation.navigate('EditText')}
+        >
+          <Text style={styles.addButtonText}>+</Text>
+        </Pressable>
+      </View>
+    </View>
+  )
+}
+
+
 // Buat navigator
 function App() {
   return (
@@ -246,6 +297,7 @@ function App() {
         <Stack.Screen name="Primary" component={PrimaryScreen} options={{ headerShown: false }}/>
         <Stack.Screen name="EditText" component={EditTextScreen} options={{ headerShown: false }}/>
         <Stack.Screen name="Login2" component={LoginScreen2} options={{ headerShown: false }}/>
+        <Stack.Screen name="NoteC" component={NoteCategories} options={{ headerShown: false }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -364,10 +416,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#2F3235',
   },
   cardPendek: {
-    paddingVertical: 25,
+    paddingVertical: 15,
     paddingHorizontal: 25,
-    borderRadius: 25,
-    marginBottom: 30,
+    borderRadius: 15,
     width: 160,
     backgroundColor: '#2F3235',
   },
