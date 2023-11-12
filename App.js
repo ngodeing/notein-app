@@ -114,25 +114,49 @@ function LoginScreen({ navigation }) {
 }
 
 function LoginScreen2({ navigation }) {
+  const [email, setEmail] = useState('');
+  const [kataSandi, setKataSandi] = useState('');
+  const [errorText, setErrorText] = useState('');
+
+  const handleLogin = () => {
+    if (email === '' || kataSandi === '') {
+      setErrorText('Email dan Kata Sandi harus diisi');
+    } else {
+      navigation.navigate('Primary');
+    }
+  };
+
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#202326' }}>
       <Text style={styles.judulKiri}>Login</Text>
       <Text style={styles.textKiri}>Email</Text>
-      <TextInput style={styles.input} placeholder="Masukkan Email" placeholderTextColor="grey"/>
+      <TextInput
+        style={styles.input}
+        placeholder="Masukkan Email"
+        placeholderTextColor="grey"
+        value={email}
+        onChangeText={(text) => setEmail(text)}
+      />
       <Text style={styles.textKiri}>Kata Sandi</Text>
-      <TextInput style={styles.input} placeholder="Masukkan Kata Sandi" secureTextEntry={true} placeholderTextColor="grey" marginBottom= {150} />
-      <Pressable
-        style={styles.button}
-        marginTop={-100}
-        onPress={() => navigation.navigate('Primary')}>
+      <TextInput
+        style={styles.input}
+        placeholder="Masukkan Kata Sandi"
+        secureTextEntry={true}
+        placeholderTextColor="grey"
+        value={kataSandi}
+        onChangeText={(text) => setKataSandi(text)}
+        marginBottom={150}
+      />
+      <Pressable style={styles.button} marginTop={-100} onPress={handleLogin}>
         <Text style={styles.text}>  Login  </Text>
-        </Pressable>
+      </Pressable>
+      {errorText && <Text style={{ color: 'red' }}>{errorText}</Text>}
     </View>
   );
 }
 
 function PrimaryScreen({ navigation, route }) {
-  const { nama } = route.params;
+  const { nama } = route.params || { nama: "User" };
 
   return (
     <View style={{ flex: 1, backgroundColor: '#202326' }}>
