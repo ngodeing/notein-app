@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Image, Pressable, TextInput, ScrollView, Modal}
 import {LinearGradient} from 'expo-linear-gradient'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { LongPressGestureHandler } from 'react-native-gesture-handler';
 
   const data = [
     { title: 'Menyelesaikan Design Mockup', paragraph: 'Deadline: Monday' },
@@ -322,134 +323,356 @@ const Stack = createStackNavigator();
 function NoteCategories({ navigation, categories, setCategories, notes }) {
   const [newCategory, setNewCategory] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+  const [categoryToDelete, setCategoryToDelete] = useState(null);
+  const [confirmationModalVisible, setConfirmationModalVisible] = useState(false);
 
   const addCategory = () => {
     if (newCategory.trim() !== '') {
       setCategories([...categories, { title: newCategory, notes: [] }]);
       setNewCategory('');
-      setModalVisible(false); // Close the modal after adding a category
+      setModalVisible(false);
     }
   };
 
+  const showDeleteConfirmation = (category) => {
+    setCategoryToDelete(category);
+    setConfirmationModalVisible(true);
+  };
+
+  const deleteCategory = () => {
+    const updatedCategories = categories.filter(
+      (category) => category !== categoryToDelete
+    );
+    setCategories(updatedCategories);
+    setCategoryToDelete(null);
+    setConfirmationModalVisible(false);
+  };
+
   return (
-    <View style={{ backgroundColor: '#202326', flex:1, }}>
-    <ScrollView>
-            <Pressable
-        style={{flex: 1, flexDirection: 'row', width: 370, justifyContent: 'space-between' , marginTop:70, marginBottom:50}}
-        onPress={() => navigation.navigate('Primary')}>
-          <Image
-        style={{width: 20, height: 20, marginLeft: 20, justifyContent: 'flex-start'}}
-        source={require('./assets/back.png')}
-      />
-        </Pressable>
-      <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#202326', paddingTop: 0 }}>
-        <Text style={styles.judulKiri}>Kategori</Text>
-        <View style={{flexDirection:'row', gap:20, flexWrap:"wrap", justifyContent:"center"}}>
-        {categories.map((category, index) => (
-          <Pressable
-            key={index}
-            style={styles.cardPendek}
-            marginBottom={0}
-            onPress={() => navigation.navigate('Notes', { category: category })}
-          >
-            <Text style={styles.textCD}>{category.title}</Text>
-            <Text style={styles.paragraphCD}>List Note</Text>
-          </Pressable>
-        ))}
-        </View>
-      </View>
-    </ScrollView>
-    <View style={styles.addButtonContainer}>
+    <View style={{ backgroundColor: '#202326', flex: 1 }}>
+      <ScrollView>
         <Pressable
-          style={styles.addButton}
-          onPress={() => setModalVisible(true)}>
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            width: 370,
+            justifyContent: 'space-between',
+            marginTop: 70,
+            marginBottom: 50,
+          }}
+          onPress={() => navigation.navigate('Primary')}
+        >
+          <Image
+            style={{
+              width: 20,
+              height: 20,
+              marginLeft: 20,
+              justifyContent: 'flex-start',
+            }}
+            source={require('./assets/back.png')}
+          />
+        </Pressable>
+        <View
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            backgroundColor: '#202326',
+            paddingTop: 0,
+          }}
+        >
+          <Text style={styles.judulKiri}>Kategori</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              gap: 20,
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+            }}
+          >
+            {categories.map((category, index) => (
+              <LongPressGestureHandler
+                key={index}
+                onHandlerStateChange={({ nativeEvent }) => {
+                  if (nativeEvent.state === 4) {
+                    showDeleteConfirmation(category);
+                  }
+                }}
+              >
+                <View>
+                  <Pressable
+                    style={styles.cardPendek}
+                    marginBottom={0}
+                    onPress={() =>
+                      navigation.navigate('Notes', { category: category })
+                    }
+                  >
+                    <Text style={styles.textCD}>{category.title}</Text>
+                    <Text style={styles.paragraphCD}>List Note</Text>
+                  </Pressable>
+                </View>
+              </LongPressGestureHandler>
+            ))}
+          </View>
+        </View>
+      </ScrollView>
+      <View style={styles.addButtonContainer}>
+        <Pressable style={styles.addButton} onPress={() => setModalVisible(true)}>
           <Text style={styles.addButtonText}>+</Text>
         </Pressable>
         <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={{flex:1, justifyContent:'center',padding:20,backgroundColor:'#2F3235', alignItems:'center'}}>
-          <View>
-            <Text style={{color:'white', fontSize:20, fontWeight:'bold', marginBottom:20}}>Tambah Kategori</Text>
-            <TextInput
-              placeholder="Masukkan Nama Kategori"
-              style={styles.input}
-              placeholderTextColor={'grey'}
-              value={newCategory}
-              onChangeText={(text) => setNewCategory(text)}
-            />
-
-            <View style={{flex:1,flexDirection:'row-reverse', justifyContent: 'center', gap:20}}>
-            <Pressable onPress={addCategory} style={styles.addButtonS}>
-              <Text style={{color:'white'}}>Tambah</Text>
-            </Pressable>
-
-            {/* Button to close the modal */}
-            <Pressable onPress={() => setModalVisible(false)} style={styles.addButtonS}>
-              <Text style={{color:'white'}}>Batalkan</Text>
-            </Pressable>
-            </View>{/* Button to add the new category */}
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              padding: 20,
+              backgroundColor: '#2F3235',
+              alignItems: 'center',
+            }}
+          >
+            <View>
+              <Text
+                style={{
+                  color: 'white',
+                  fontSize: 20,
+                  fontWeight: 'bold',
+                  marginBottom: 20,
+                }}
+              >
+                Tambah Kategori
+              </Text>
+              <TextInput
+                placeholder="Masukkan Nama Kategori"
+                style={styles.input}
+                placeholderTextColor={'grey'}
+                value={newCategory}
+                onChangeText={(text) => setNewCategory(text)}
+              />
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: 'row-reverse',
+                  justifyContent: 'center',
+                  gap: 20,
+                }}
+              >
+                <Pressable onPress={addCategory} style={styles.addButtonS}>
+                  <Text style={{ color: 'white' }}>Tambah</Text>
+                </Pressable>
+                <Pressable
+                  onPress={() => setModalVisible(false)}
+                  style={styles.addButtonS}
+                >
+                  <Text style={{ color: 'white' }}>Batalkan</Text>
+                </Pressable>
+              </View>
+            </View>
           </View>
-        </View>
-      </Modal>
+        </Modal>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={confirmationModalVisible}
+          onRequestClose={() => setConfirmationModalVisible(false)}
+        >
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              padding: 20,
+              backgroundColor: '#2F3235',
+              alignItems: 'center',
+            }}
+          >
+            <View>
+              <Text
+                style={{
+                  color: 'white',
+                  fontSize: 20,
+                  fontWeight: 'bold',
+                  marginBottom: 20,
+                }}
+              >
+                Apakah kategori ini ingin dipindahkan ke sampah?
+              </Text>
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: 'row-reverse',
+                  justifyContent: 'center',
+                  gap: 20,
+                }}
+              >
+                <Pressable onPress={deleteCategory} style={styles.addButtonS}>
+                  <Text style={{ color: 'white' }}>Ya</Text>
+                </Pressable>
+                <Pressable
+                  onPress={() => setConfirmationModalVisible(false)}
+                  style={styles.addButtonS}
+                >
+                  <Text style={{ color: 'white' }}>Tidak</Text>
+                </Pressable>
+              </View>
+            </View>
+          </View>
+        </Modal>
       </View>
     </View>
-  )
+  );
 }
 
 function NotesScreen({ route, navigation, notes, setNotes }) {
   const { category } = route.params;
+  const [noteToDelete, setNoteToDelete] = useState(null);
+  const [confirmationModalVisible, setConfirmationModalVisible] = useState(false);
 
   const updateNotes = (newNotes) => {
     setNotes(newNotes);
   };
+
   const navigateToEditText = (noteData) => {
     navigation.navigate('EditText', {
       onNoteSaved: updateNotes,
-      initialNoteData: noteData, // Pass the existing note data to EditTextScreen
+      initialNoteData: noteData,
     });
   };
 
+  const showDeleteConfirmation = (note) => {
+    setNoteToDelete(note);
+    setConfirmationModalVisible(true);
+  };
+
+  const deleteNote = () => {
+    const updatedNotes = notes.filter((note) => note !== noteToDelete);
+    setNotes(updatedNotes);
+    setNoteToDelete(null);
+    setConfirmationModalVisible(false);
+  };
+
   return (
-    <View style={{ backgroundColor: '#202326', flex:1, }}>
-    <ScrollView>
-            <Pressable
-        style={{flex: 1, flexDirection: 'row', width: 370, justifyContent: 'space-between' , marginTop:70, marginBottom:50}}
-        onPress={() => navigation.navigate('NoteC')}>
+    <View style={{ backgroundColor: '#202326', flex: 1 }}>
+      <ScrollView>
+        <Pressable
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            width: 370,
+            justifyContent: 'space-between',
+            marginTop: 70,
+            marginBottom: 50,
+          }}
+          onPress={() => navigation.navigate('NoteC')}
+        >
           <Image
-        style={{width: 20, height: 20, marginLeft: 20, justifyContent: 'flex-start'}}
-        source={require('./assets/back.png')}
-      />
+            style={{
+              width: 20,
+              height: 20,
+              marginLeft: 20,
+              justifyContent: 'flex-start',
+            }}
+            source={require('./assets/back.png')}
+          />
         </Pressable>
-      <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#202326', paddingTop: 0 }}>
-        <Text style={styles.judulKiri}>{category.title}</Text>
-        <View style={{flexDirection:'row', flexWrap:"wrap", justifyContent:"center"}}>
-        {notes.map((note, index) => (
-           <Pressable
-           key={index}
-           style={styles.card}
-           onPress={() => navigateToEditText(note)} // Pass the note data here
+        <View
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            backgroundColor: '#202326',
+            paddingTop: 0,
+          }}
+        >
+          <Text style={styles.judulKiri}>{category.title}</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+            }}
           >
-           <Text style={styles.textKiri} key={index}>{note?.title}</Text>
-           <Text style={styles.paragraph} key={index}>{note?.notes}</Text>
-         </Pressable>
-        ))}
+            {notes.map((note, index) => (
+              <LongPressGestureHandler
+                key={index}
+                onHandlerStateChange={({ nativeEvent }) => {
+                  if (nativeEvent.state === 4) {
+                    showDeleteConfirmation(note);
+                  }
+                }}
+              >
+                <View>
+                  <Pressable
+                    style={styles.card}
+                    onPress={() => navigateToEditText(note)}
+                  >
+                    <Text style={styles.textKiri}>{note?.title}</Text>
+                    <Text style={styles.paragraph}>{note?.notes}</Text>
+                  </Pressable>
+                </View>
+              </LongPressGestureHandler>
+            ))}
+          </View>
         </View>
+      </ScrollView>
+      <View style={styles.addButtonContainer}>
+        <Pressable
+          style={styles.addButton}
+          onPress={navigateToEditText}
+        >
+          <Text style={styles.addButtonText}>+</Text>
+        </Pressable>
       </View>
-    </ScrollView>
-    <View style={styles.addButtonContainer}>
-    <Pressable
-        style={styles.addButton}
-        onPress={navigateToEditText}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={confirmationModalVisible}
+        onRequestClose={() => setConfirmationModalVisible(false)}
       >
-        <Text style={styles.addButtonText}>+</Text>
-      </Pressable>
-      </View>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            padding: 20,
+            backgroundColor: '#2F3235',
+            alignItems: 'center',
+          }}
+        >
+          <View>
+            <Text
+              style={{
+                color: 'white',
+                fontSize: 20,
+                fontWeight: 'bold',
+                marginBottom: 20,
+              }}
+            >
+              Apakah catatan ini ingin dihapus?
+            </Text>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: 'row-reverse',
+                justifyContent: 'center',
+                gap: 20,
+              }}
+            >
+              <Pressable onPress={deleteNote} style={styles.addButtonS}>
+                <Text style={{ color: 'white' }}>Ya</Text>
+              </Pressable>
+              <Pressable
+                onPress={() => setConfirmationModalVisible(false)}
+                style={styles.addButtonS}
+              >
+                <Text style={{ color: 'white' }}>Tidak</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
-  )
+  );
 }
 
 function TrashFiles({ navigation }) {
