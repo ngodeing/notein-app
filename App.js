@@ -53,25 +53,60 @@ function DetailScreen({ navigation }) {
 }
 
 function LoginScreen({ navigation }) {
+  const [nama, setNama] = useState('');
+  const [email, setEmail] = useState('');
+  const [kataSandi, setKataSandi] = useState('');
+  const [errorText, setErrorText] = useState('');
+
   const handleNavigation = () => {
     navigation.navigate('Login2');
+  };
+
+  const handleDaftar = () => {
+    if (nama === '' || email === '' || kataSandi === '') {
+      // Set pesan kesalahan jika salah satu input kosong
+      setErrorText('Jangan kosongkan bagian yang belum diisi');
+    } else {
+      // Lanjutkan dengan navigasi jika semua input telah diisi
+      navigation.navigate('Primary', { nama: nama });
+    }
   };
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#202326' }}>
       <Text style={styles.judulKiri}>Siap Menjadi Produktif? Daftar</Text>
       <Text style={styles.textKiri} marginTop={30}>Nama</Text>
-      <TextInput style={styles.input} placeholder="Masukkan Nama" placeholderTextColor="grey"/>
+      <TextInput
+        style={styles.input}
+        placeholder="Masukkan Nama"
+        placeholderTextColor="grey"
+        value={nama}
+        onChangeText={(text) => setNama(text)}
+      />
       <Text style={styles.textKiri}>Email</Text>
-      <TextInput style={styles.input} placeholder="Masukkan Email" placeholderTextColor="grey"/>
+      <TextInput
+        style={styles.input}
+        placeholder="Masukkan Email"
+        placeholderTextColor="grey"
+        value={email}
+        onChangeText={(text) => setEmail(text)}
+      />
       <Text style={styles.textKiri}>Kata Sandi</Text>
-      <TextInput style={styles.input} placeholder="Masukkan Kata Sandi" secureTextEntry={true} placeholderTextColor="grey" marginBottom= {150} />
-      <Pressable
-        style={styles.button}
-        onPress={() => navigation.navigate('Primary')}>
+      <TextInput
+        style={styles.input}
+        placeholder="Masukkan Kata Sandi"
+        secureTextEntry={true}
+        placeholderTextColor="grey"
+        value={kataSandi}
+        onChangeText={(text) => setKataSandi(text)}
+        marginBottom={150}
+      />
+      <Pressable style={styles.button} onPress={handleDaftar}>
         <Text style={styles.text}>  Daftar  </Text>
-        </Pressable>
-      <Text style={styles.text2} marginTop={20} marginBottom={-50}>Sudah punya akun?
+      </Pressable>
+      {errorText && <Text style={{ color: 'red' }}>{errorText}</Text>}
+      <Text style={styles.text2} marginTop={20} marginBottom={-50}>
+        Sudah punya akun?
         <Text style={styles.masuk} onPress={handleNavigation}> Masuk</Text>
       </Text>
     </View>
@@ -96,71 +131,76 @@ function LoginScreen2({ navigation }) {
   );
 }
 
-function PrimaryScreen({navigation}) {
+function PrimaryScreen({ navigation, route }) {
+  const { nama } = route.params;
+
   return (
     <View style={{ flex: 1, backgroundColor: '#202326' }}>
       <ScrollView>
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#202326', paddingTop:80 }}>
-      <Text style={styles.judul2Kiri}>Hello User</Text>
-      <Pressable
-        style={styles.cardPanjang} flexDirection= 'row' gap={20}
-        onPress={() => navigation.navigate('EditText')}>
-        <View style={{justifyContent:'flex-start'}}>
-        <Text style={styles.textCP}>Progress Hari ini</Text>
-        <Text style={styles.paragraphCP}>Kamu telah menyelesaikan tugas sebanyak 75% Teruskan!</Text>
-        </View>
-        <View style={styles.progressContainer}>
-          <LinearGradient
-            colors={['#00C2FF', '#0047FF']}
-            style={styles.circle}
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#202326', paddingTop: 80 }}>
+          <Text style={styles.judul2Kiri}>Hello {nama}</Text>
+          <Pressable
+            style={styles.cardPanjang}
+            flexDirection='row'
+            gap={20}
+            onPress={() => navigation.navigate('EditText')}
           >
-            <Text style={styles.circleText}>75%</Text>
-          </LinearGradient>
+            <View style={{ justifyContent: 'flex-start' }}>
+              <Text style={styles.textCP}>Progress Hari ini</Text>
+              <Text style={styles.paragraphCP}>Kamu telah menyelesaikan tugas sebanyak 75% Teruskan!</Text>
+            </View>
+            <View style={styles.progressContainer}>
+              <LinearGradient
+                colors={['#00C2FF', '#0047FF']}
+                style={styles.circle}
+              >
+                <Text style={styles.circleText}>75%</Text>
+              </LinearGradient>
+            </View>
+          </Pressable>
+
+          <View style={{ flexDirection: 'row', gap: 20 }}>
+            <Pressable
+              style={styles.cardPendek}
+              marginBottom={30}
+              onPress={() => navigation.navigate('NoteC')}
+            >
+              <Image
+                style={styles.imageKecil}
+                source={require('./assets/notego.png')}
+              />
+              <Text style={styles.textCD}>Kategori</Text>
+              <Text style={styles.paragraphCD}>5 Kategori</Text>
+            </Pressable>
+            <Pressable
+              style={styles.cardPendek}
+              marginBottom={30}
+              onPress={() => navigation.navigate('TrashFile')}
+            >
+              <Image
+                style={styles.imageKecil}
+                source={require('./assets/t4sampahputih.png')}
+              />
+              <Text style={styles.textCD}>Sampah</Text>
+              <Text style={styles.paragraphCD}>2 note's</Text>
+            </Pressable>
+          </View>
+
+          <Text style={styles.judul2Kiri}>Terbaru</Text>
+
+          {data.map((item, index) => (
+            <Pressable
+              key={index}
+              style={styles.card}
+              onPress={() => navigation.navigate('EditText')}
+            >
+              <Text style={styles.textKiri}>{item.title}</Text>
+              <Text style={styles.paragraphCP}>{item.paragraph}</Text>
+            </Pressable>
+          ))}
         </View>
-        </Pressable>
-
-        <View style={{flexDirection:'row', gap:20}}>
-        <Pressable
-        style={styles.cardPendek}
-        marginBottom = {30}
-        onPress={() => navigation.navigate('NoteC')}>
-        <Image
-        style={styles.imageKecil}
-        source={require('./assets/notego.png')}
-      />
-        <Text style={styles.textCD}>Kategori</Text>
-        <Text style={styles.paragraphCD}>5 Kategori</Text>
-        </Pressable>
-        <Pressable
-        style={styles.cardPendek}
-        marginBottom = {30}
-        onPress={() => navigation.navigate('TrashFile')}>
-        <Image
-        style={styles.imageKecil}
-        source={require('./assets/t4sampahputih.png')}
-      />
-        <Text style={styles.textCD}>Sampah</Text>
-        <Text style={styles.paragraphCD}>2 note's</Text>
-        </Pressable>
-        </View>
-
-        <Text style={styles.judul2Kiri}>Terbaru</Text>
-
-        {data.map((item, index) => (
-        <Pressable
-          key={index}
-          style={styles.card}
-          onPress={() => navigation.navigate('EditText')}
-        >
-          <Text style={styles.textKiri}>{item.title}</Text>
-          <Text style={styles.paragraphCP}>{item.paragraph}</Text>
-        </Pressable>
-      ))}
+      </ScrollView>
     </View>
-    </ScrollView>
-    </View>
-    
-    
   );
 }
 
