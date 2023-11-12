@@ -158,7 +158,6 @@ function LoginScreen2({ navigation }) {
 
 function PrimaryScreen({ navigation, route }) {
   const { nama } = route.params || { nama: "User" };
-
   return (
     <View style={{ flex: 1, backgroundColor: '#202326' }}>
       <ScrollView>
