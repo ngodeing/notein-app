@@ -155,6 +155,7 @@ function LoginScreen2({ navigation }) {
   );
 }
 
+
 function PrimaryScreen({ navigation, route }) {
   const { nama } = route.params || { nama: "User" };
 
