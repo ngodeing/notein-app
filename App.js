@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image, Pressable, TextInput, ScrollView, TouchableOpacity} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, Image, Pressable, TextInput, ScrollView, Modal} from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -45,6 +45,7 @@ function DetailScreen({ navigation }) {
       <Text style={styles.paragraph}>Tulis semua catatanmu dengan mudah dan sederhana hanya disini!</Text>
       <Pressable
         style={styles.button}
+        marginTop={50}
         onPress={() => navigation.navigate('Login')}>
         <Text style={styles.text}>Ayo Mulai</Text>
         </Pressable>
@@ -96,7 +97,7 @@ function LoginScreen2({ navigation }) {
   );
 }
 
-function PrimaryScreen({navigation}) {
+function PrimaryScreen({navigation, notes, setNotes}) {
   return (
     <View style={{ flex: 1, backgroundColor: '#202326' }}>
       <ScrollView>
@@ -129,7 +130,7 @@ function PrimaryScreen({navigation}) {
         source={require('./assets/notego.png')}
       />
         <Text style={styles.textCD}>Kategori</Text>
-        <Text style={styles.paragraphCD}>5 Kategori</Text>
+        <Text style={styles.paragraphCD}>List Kategori</Text>
         </Pressable>
         <Pressable
         style={styles.cardPendek}
@@ -140,22 +141,21 @@ function PrimaryScreen({navigation}) {
         source={require('./assets/t4sampahputih.png')}
       />
         <Text style={styles.textCD}>Sampah</Text>
-        <Text style={styles.paragraphCD}>2 note's</Text>
+        <Text style={styles.paragraphCD}>List Sampah</Text>
         </Pressable>
         </View>
 
         <Text style={styles.judul2Kiri}>Terbaru</Text>
 
         {data.map((item, index) => (
-        <Pressable
-          key={index}
-          style={styles.card}
-          onPress={() => navigation.navigate('EditText')}
-        >
-          <Text style={styles.textKiri}>{item.title}</Text>
-          <Text style={styles.paragraphCP}>{item.paragraph}</Text>
-        </Pressable>
-      ))}
+            <Pressable
+              key={index}
+              style={styles.card}
+            >
+              <Text style={styles.textKiri}>{item.title}</Text>
+              <Text style={styles.paragraphCP}>{item.paragraph}</Text>
+            </Pressable>
+          ))}
     </View>
     </ScrollView>
     </View>
@@ -164,10 +164,21 @@ function PrimaryScreen({navigation}) {
   );
 }
 
-function EditTextScreen({navigation}) {
+function EditTextScreen({navigation, route,notes, setNotes}) {
   const [text, setText] = useState('');
   const [textjudul, setTextjudul] = useState('');
+  const { onNoteSaved, initialNoteData } = route.params;
+  const [newNote, setNewNote] = useState('');
+  const { updateNotes } = route.params;
 
+  useEffect(() => {
+    // Set initial values when the component mounts
+    if (initialNoteData) {
+      setTextjudul(initialNoteData.title || '');
+      setText(initialNoteData.notes || '');
+    }
+  }, [initialNoteData]);
+  
   const calculateNumberOfLinesjudul = () => {
     const lines = textjudul.split('\n');
     return lines.length;
@@ -176,21 +187,38 @@ function EditTextScreen({navigation}) {
     const lines = text.split('\n');
     return lines.length;
   };
+
+  const handleSave = () => {
+    // Your logic to save the new note
+    const newNote = { title: textjudul, notes: text };
+
+    // Assume you have a newNote object with a title property
+    const updatedNotes = [...notes, newNote];
+
+    // Call the onNoteSaved function to update notes in NotesScreen
+    onNoteSaved(updatedNotes);
+
+    navigation.goBack();
+  };
+
   return (
     <ScrollView backgroundColor= '#202326'>
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#202326', paddingTop:80 }}>
-      <Pressable
-        style={{flex: 1, flexDirection: 'row', width: 370, justifyContent: 'space-between' , marginBottom: 50}}
-        onPress={() => navigation.navigate('Primary')}>
+      <View
+      style={{flex: 1, flexDirection: 'row', width: 370, justifyContent: 'space-between' , marginBottom: 50}}
+      >
+      <Pressable onPress={() => navigation.navigate('NoteC')}>
           <Image
         style={{width: 20, height: 20, marginLeft: 20, justifyContent: 'flex-start'}}
         source={require('./assets/back.png')}
-      />
+      /></Pressable>
+      <Pressable onPress={handleSave}>
       <Image
         style={{width: 20, height: 20, marginRight: 30 , justifyContent: 'flex-end'}}
         source={require('./assets/save.png')}
       />
-        </Pressable>
+      </Pressable>
+        </View>
       </View>
       <TextInput
         style={{ fontSize: 30, fontWeight: 'bold', textAlign: 'left', marginBottom: 20, marginLeft: 30, color: 'white', width: 300,
@@ -225,14 +253,17 @@ function EditTextScreen({navigation}) {
 
 const Stack = createStackNavigator();
 
-function NoteCategories({ navigation }) {
-  const categories = [
-    { title: "Study", notes: 10 },
-    { title: "Personal", notes: 5 },
-    { title: "UI/UX Design", notes: 10 },
-    { title: "Blog Post", notes: 5 },
-    // Tambahkan lebih banyak kategori jika diperlukan
-  ];
+function NoteCategories({ navigation, categories, setCategories, notes }) {
+  const [newCategory, setNewCategory] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const addCategory = () => {
+    if (newCategory.trim() !== '') {
+      setCategories([...categories, { title: newCategory, notes: [] }]);
+      setNewCategory('');
+      setModalVisible(false); // Close the modal after adding a category
+    }
+  };
 
   return (
     <View style={{ backgroundColor: '#202326', flex:1, }}>
@@ -252,10 +283,11 @@ function NoteCategories({ navigation }) {
           <Pressable
             key={index}
             style={styles.cardPendek}
-            marginBottom = {0}
-            onPress={() => navigation.navigate('Notes')}>
+            marginBottom={0}
+            onPress={() => navigation.navigate('Notes', { category: category })}
+          >
             <Text style={styles.textCD}>{category.title}</Text>
-            <Text style={styles.paragraphCD}>{category.notes}</Text>
+            <Text style={styles.paragraphCD}>List Note</Text>
           </Pressable>
         ))}
         </View>
@@ -264,57 +296,91 @@ function NoteCategories({ navigation }) {
     <View style={styles.addButtonContainer}>
         <Pressable
           style={styles.addButton}
-          onPress={() => navigation.navigate('EditText')}
-        >
+          onPress={() => setModalVisible(true)}>
           <Text style={styles.addButtonText}>+</Text>
         </Pressable>
+        <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={{flex:1, justifyContent:'center',padding:20,backgroundColor:'#2F3235', alignItems:'center'}}>
+          <View>
+            <Text style={{color:'white', fontSize:20, fontWeight:'bold', marginBottom:20}}>Tambah Kategori</Text>
+            <TextInput
+              placeholder="Masukkan Nama Kategori"
+              style={styles.input}
+              placeholderTextColor={'grey'}
+              value={newCategory}
+              onChangeText={(text) => setNewCategory(text)}
+            />
+
+            <View style={{flex:1,flexDirection:'row-reverse', justifyContent: 'center', gap:20}}>
+            <Pressable onPress={addCategory} style={styles.addButtonS}>
+              <Text style={{color:'white'}}>Tambah</Text>
+            </Pressable>
+
+            {/* Button to close the modal */}
+            <Pressable onPress={() => setModalVisible(false)} style={styles.addButtonS}>
+              <Text style={{color:'white'}}>Batalkan</Text>
+            </Pressable>
+            </View>{/* Button to add the new category */}
+          </View>
+        </View>
+      </Modal>
       </View>
     </View>
   )
 }
 
-function NotesScreen({ navigation }) {
-  const notes = [
-    { title: "Mengerjakan Kuis Seni Budaya", notes: "jangan lupa jam 9 untuk sesi 1 dan jam 10 untuk sesi 3" },
-    { title: "4 Hal yang perlu dibawa", notes: "jangan lupa jam 9 untuk sesi 1 dan jam 10 untuk sesi 3" },
-    { title: "Tugas Akhir IMK", notes: "jangan lupa jam 9 untuk sesi 1 dan jam 10 untuk sesi 3" },
-    { title: "Presentasi KWU", notes: "jangan lupa jam 9 untuk sesi 1 dan jam 10 untuk sesi 3" },
-    // Tambahkan lebih banyak kategori jika diperlukan
-  ];
+function NotesScreen({ route, navigation, notes, setNotes }) {
+  const { category } = route.params;
+
+  const updateNotes = (newNotes) => {
+    setNotes(newNotes);
+  };
+  const navigateToEditText = (noteData) => {
+    navigation.navigate('EditText', {
+      onNoteSaved: updateNotes,
+      initialNoteData: noteData, // Pass the existing note data to EditTextScreen
+    });
+  };
 
   return (
     <View style={{ backgroundColor: '#202326', flex:1, }}>
     <ScrollView>
             <Pressable
         style={{flex: 1, flexDirection: 'row', width: 370, justifyContent: 'space-between' , marginTop:70, marginBottom:50}}
-        onPress={() => navigation.navigate('Primary')}>
+        onPress={() => navigation.navigate('NoteC')}>
           <Image
         style={{width: 20, height: 20, marginLeft: 20, justifyContent: 'flex-start'}}
         source={require('./assets/back.png')}
       />
         </Pressable>
       <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#202326', paddingTop: 0 }}>
-        <Text style={styles.judulKiri}>Study</Text>
+        <Text style={styles.judulKiri}>{category.title}</Text>
         <View style={{flexDirection:'row', flexWrap:"wrap", justifyContent:"center"}}>
-        {notes.map((notes, index) => (
-          <Pressable
-            key={index}
-            style={styles.card}
-            onPress={() => navigation.navigate('Primary')}>
-            <Text style={styles.textKiri}>{notes.title}</Text>
-            <Text style={styles.paragraph}>{notes.notes}</Text>
-          </Pressable>
+        {notes.map((note, index) => (
+           <Pressable
+           key={index}
+           style={styles.card}
+           onPress={() => navigateToEditText(note)} // Pass the note data here
+          >
+           <Text style={styles.textKiri} key={index}>{note?.title}</Text>
+           <Text style={styles.paragraph} key={index}>{note?.notes}</Text>
+         </Pressable>
         ))}
         </View>
       </View>
     </ScrollView>
     <View style={styles.addButtonContainer}>
-        <Pressable
-          style={styles.addButton}
-          onPress={() => navigation.navigate('EditText')}
-        >
-          <Text style={styles.addButtonText}>+</Text>
-        </Pressable>
+    <Pressable
+        style={styles.addButton}
+        onPress={navigateToEditText}
+      >
+        <Text style={styles.addButtonText}>+</Text>
+      </Pressable>
       </View>
     </View>
   )
@@ -360,24 +426,81 @@ function TrashFiles({ navigation }) {
 
 // Buat navigator
 function App() {
+  const [categories, setCategories] = useState([]);
+  const [notes, setNotes] = useState([]);
   return (
-    <NavigationContainer backgroundColor= '#202326'>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{ headerShown: false }}
+    <NavigationContainer backgroundColor="#202326">
+  <Stack.Navigator>
+    <Stack.Screen
+      name="Home"
+      component={HomeScreen}
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen
+      name="Detail"
+      component={DetailScreen}
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen
+      name="Login"
+      component={LoginScreen}
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen
+      name="Primary"
+      component={PrimaryScreen}
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen
+      name="EditText"
+      options={{ headerShown: false }}
+    >
+      {(props) => (
+        <EditTextScreen
+          {...props}
+          categories={categories}
+          notes={notes}
+          setNotes={setNotes}
         />
-        <Stack.Screen name="Detail" component={DetailScreen} options={{ headerShown: false }}/>
-        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }}/>
-        <Stack.Screen name="Primary" component={PrimaryScreen} options={{ headerShown: false }}/>
-        <Stack.Screen name="EditText" component={EditTextScreen} options={{ headerShown: false }}/>
-        <Stack.Screen name="Login2" component={LoginScreen2} options={{ headerShown: false }}/>
-        <Stack.Screen name="NoteC" component={NoteCategories} options={{ headerShown: false }}/>
-        <Stack.Screen name="Notes" component={NotesScreen} options={{ headerShown: false }}/>
-        <Stack.Screen name="TrashFile" component={TrashFiles} options={{ headerShown: false }}/>
-      </Stack.Navigator>
-    </NavigationContainer>
+      )}
+    </Stack.Screen>
+    <Stack.Screen
+      name="Login2"
+      component={LoginScreen2}
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen
+      name="NoteC"
+      options={{ headerShown: false }}
+    >
+      {(props) => (
+        <NoteCategories
+          {...props}
+          categories={categories}
+          setCategories={setCategories}
+        />
+      )}
+    </Stack.Screen>
+    <Stack.Screen
+      name="Notes"
+      options={{ headerShown: false }}
+    >
+      {(props) => (
+        <NotesScreen
+          {...props}
+          categories={categories}
+          notes={notes}
+          setNotes={setNotes}
+        />
+      )}
+    </Stack.Screen>
+    <Stack.Screen
+      name="TrashFile"
+      component={TrashFiles}
+      options={{ headerShown: false }}
+    />
+  </Stack.Navigator>
+</NavigationContainer>
   );
 }
 
@@ -549,6 +672,15 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
+    backgroundColor: '#007DFF',
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 5,
+  },
+  addButtonS: {
+    width: 100,
+    height: 50,
+    borderRadius: 15,
     backgroundColor: '#007DFF',
     alignItems: 'center',
     justifyContent: 'center',
