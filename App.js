@@ -169,7 +169,6 @@ function PrimaryScreen({ navigation, route , notes, setNotes}) {
             style={styles.cardPanjang}
             flexDirection='row'
             gap={20}
-            onPress={() => navigation.navigate('EditText')}
           >
             <View style={{ justifyContent: 'flex-start' }}>
               <Text style={styles.textCP}>Progress Hari ini</Text>
