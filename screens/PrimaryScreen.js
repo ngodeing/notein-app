@@ -43,7 +43,7 @@ export default function PrimaryScreen({ navigation, route , notes, setNotes}) {
               >
                 <Image
                   style={styles.imageKecil}
-                  source={require('./../assets/notego.png')}
+                  source={require('./../assets/images/notego.png')}
                 />
                 <Text style={styles.textCD}>Kategori</Text>
                 <Text style={styles.paragraphCD}>List Kategori</Text>
@@ -55,7 +55,7 @@ export default function PrimaryScreen({ navigation, route , notes, setNotes}) {
               >
                 <Image
                   style={styles.imageKecil}
-                  source={require('./../assets/t4sampahputih.png')}
+                  source={require('./../assets/images/t4sampahputih.png')}
                 />
                 <Text style={styles.textCD}>Sampah</Text>
                 <Text style={styles.paragraphCD}>List Sampah</Text>

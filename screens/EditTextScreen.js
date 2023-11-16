@@ -2,12 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { View, Image, Pressable, TextInput, ScrollView} from 'react-native';
 
 
-export default function EditTextScreen({navigation, route,notes, setNotes}) {
+export default function EditTextScreen({navigation, route,notes}) {
     const [text, setText] = useState('');
     const [textjudul, setTextjudul] = useState('');
     const { onNoteSaved, initialNoteData } = route.params;
-    const [newNote, setNewNote] = useState('');
-    const { updateNotes } = route.params;
   
     useEffect(() => {
       // Set initial values when the component mounts
@@ -45,15 +43,15 @@ export default function EditTextScreen({navigation, route,notes, setNotes}) {
         <View
         style={{flex: 1, flexDirection: 'row', width: 370, justifyContent: 'space-between' , marginBottom: 50}}
         >
-        <Pressable onPress={() => navigation.navigate('NoteS')}>
+        <Pressable onPress={() => navigation.navigate('NoteC')}>
             <Image
           style={{width: 20, height: 20, marginLeft: 20, justifyContent: 'flex-start'}}
-          source={require('./../assets/back.png')}
+          source={require('./../assets/images/back.png')}
         /></Pressable>
         <Pressable onPress={handleSave}>
         <Image
           style={{width: 20, height: 20, marginRight: 30 , justifyContent: 'flex-end'}}
-          source={require('./../assets/save.png')}
+          source={require('./../assets/images/save.png')}
         />
         </Pressable>
           </View>

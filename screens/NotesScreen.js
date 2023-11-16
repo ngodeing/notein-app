@@ -51,7 +51,7 @@ export default function NotesScreen({ route, navigation, notes, setNotes }) {
                 marginLeft: 20,
                 justifyContent: 'flex-start',
               }}
-              source={require('./../assets/back.png')}
+              source={require('./../assets/images/back.png')}
             />
           </Pressable>
           <View

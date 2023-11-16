@@ -5,7 +5,7 @@ export default function DetailScreen({ navigation }) {
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor:'#202326'}}>
         <Image
           style={styles.image}
-          source={require('./../assets/first.png')}
+          source={require('./../assets/images/first.png')}
         />
         <Text style={styles.judulKiri}>Jadikan Semua Rencanamu Terlaksana</Text>
         <Text style={styles.paragraph}>Tulis semua catatanmu dengan mudah dan sederhana hanya disini!</Text>

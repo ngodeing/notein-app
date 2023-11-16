@@ -16,7 +16,7 @@ export default function TrashFiles({ navigation }) {
           onPress={() => navigation.navigate('Primary')}>
             <Image
           style={{width: 20, height: 20, marginLeft: 20, justifyContent: 'flex-start'}}
-          source={require('./../assets/back.png')}
+          source={require('./../assets/images/back.png')}
         />
           </Pressable>
         <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#202326', paddingTop: 0 }}>
