@@ -2,15 +2,20 @@ import { View, Text, StyleSheet, Image, Pressable, ScrollView} from 'react-nativ
 import {LinearGradient} from 'expo-linear-gradient'
 
 
-const data = [
-    { title: 'Menyelesaikan Design Mockup', paragraph: 'Deadline: Monday' },
-    { title: 'Menyelesaikan app nya', paragraph: 'Deadline: Monday' },
-    { title: 'Membuat Laporan Aplikasi', paragraph: 'Deadline: Monday' },
-    // Tambahkan data lainnya di sini jika diperlukan
-  ];
-
-export default function PrimaryScreen({ navigation, route , notes, setNotes}) {
+export default function PrimaryScreen({ navigation, route, notes, setNotes }) {
     const { nama } = route.params || { nama: "User" };
+
+    const updateNotes = (newNotes) => {
+      setNotes(newNotes);
+    };
+
+    const navigateToEditText = (noteData) => {
+      navigation.navigate('EditText', {
+        onNoteSaved: updateNotes,
+        initialNoteData: noteData,
+      });
+    };
+
     return (
       <View style={{ flex: 1, backgroundColor: '#202326' }}>
         <ScrollView>
@@ -64,13 +69,14 @@ export default function PrimaryScreen({ navigation, route , notes, setNotes}) {
   
             <Text style={styles.judul2Kiri}>Terbaru</Text>
   
-          {data.map((item, index) => (
+          {notes.map((item, index) => (
               <Pressable
                 key={index}
                 style={styles.card}
+                onPress={() => navigateToEditText(item)}
               >
-                <Text style={styles.textKiri}>{item.title}</Text>
-                <Text style={styles.paragraphCP}>{item.paragraph}</Text>
+                <Text style={styles.textKiri}>{item?.title}</Text>
+                <Text style={styles.paragraphCP}>{item?.notes}</Text>
               </Pressable>
             ))}
       </View>

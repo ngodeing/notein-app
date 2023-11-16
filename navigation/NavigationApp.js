@@ -30,9 +30,17 @@ export default function NavigationApp() {
     />
     <Stack.Screen
       name="Primary"
-      component={PrimaryScreen}
       options={{ headerShown: false }}
-    />
+    >
+      {(props) => (
+        <PrimaryScreen
+          {...props}
+          categories={categories}
+          notes={notes}
+          setNotes={setNotes}
+        />
+      )}
+    </Stack.Screen>
     <Stack.Screen
       name="EditText"
       options={{ headerShown: false }}
