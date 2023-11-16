@@ -29,14 +29,14 @@ export default function PrimaryScreen({ navigation, route, notes, setNotes }) {
             >
               <View style={{ justifyContent: 'flex-start' }}>
                 <Text style={styles.textCP}>Progress Hari ini</Text>
-                <Text style={styles.paragraphCP}>Kamu telah membuat 5 Notes selama ini Teruskan!</Text>
+                <Text style={styles.paragraphCP}>Kamu telah membuat {notes.length} Notes selama ini Teruskan!</Text>
               </View>
               <View style={styles.progressContainer}>
                 <LinearGradient
                   colors={['#00C2FF', '#0047FF']}
                   style={styles.circle}
                 >
-                  <Text style={styles.circleText}>5</Text>
+                  <Text style={styles.circleText}>{notes.length}</Text>
                 </LinearGradient>
               </View>
             </Pressable>
@@ -45,13 +45,13 @@ export default function PrimaryScreen({ navigation, route, notes, setNotes }) {
               <Pressable
                 style={styles.cardPendek}
                 marginBottom={30}
-                onPress={() => navigation.navigate('NoteC')}
+                onPress={() => navigation.navigate('Notes')}
               >
                 <Image
                   style={styles.imageKecil}
                   source={require('./../assets/images/notego.png')}
                 />
-                <Text style={styles.textCD}>Kategori</Text>
+                <Text style={styles.textCD}>Notes</Text>
                 <Text style={styles.paragraphCD}>List Kategori</Text>
               </Pressable>
               <Pressable

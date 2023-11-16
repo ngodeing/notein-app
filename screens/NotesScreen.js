@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, Image, Pressable, ScrollView, Modal} from 'reac
 import { LongPressGestureHandler } from 'react-native-gesture-handler';
 
 export default function NotesScreen({ route, navigation, notes, setNotes }) {
-    const { category } = route.params;
     const [noteToDelete, setNoteToDelete] = useState(null);
     const [confirmationModalVisible, setConfirmationModalVisible] = useState(false);
   
@@ -50,7 +49,7 @@ export default function NotesScreen({ route, navigation, notes, setNotes }) {
               marginTop: 70,
               marginBottom: 50,
             }}
-            onPress={() => navigation.navigate('NoteC')}
+            onPress={() => navigation.navigate('Primary')}
           >
             <Image
               style={{
@@ -70,7 +69,7 @@ export default function NotesScreen({ route, navigation, notes, setNotes }) {
               paddingTop: 0,
             }}
           >
-            <Text style={styles.judulKiri}>{category.title}</Text>
+            <Text style={styles.judulKiri}>Notes</Text>
             <View
               style={{
                 flexDirection: 'row',
