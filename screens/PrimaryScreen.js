@@ -52,7 +52,7 @@ export default function PrimaryScreen({ navigation, route, notes, setNotes }) {
                   source={require('./../assets/images/notego.png')}
                 />
                 <Text style={styles.textCD}>Notes</Text>
-                <Text style={styles.paragraphCD}>List Kategori</Text>
+                <Text style={styles.paragraphCD}>{notes.length} Notes</Text>
               </Pressable>
               <Pressable
                 style={styles.cardPendek}
@@ -64,7 +64,7 @@ export default function PrimaryScreen({ navigation, route, notes, setNotes }) {
                   source={require('./../assets/images/t4sampahputih.png')}
                 />
                 <Text style={styles.textCD}>Sampah</Text>
-                <Text style={styles.paragraphCD}>List Sampah</Text>
+                <Text style={styles.paragraphCD}>{notes.length} Sampah</Text>
               </Pressable>
             </View>
   

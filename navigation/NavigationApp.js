@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState, useEffect} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import DetailScreen from '../screens/DetailScreen';
@@ -9,11 +9,36 @@ import EditTextScreen from '../screens/EditTextScreen';
 import OnlyEditScreen from '../screens/OnlyEditScreen';
 import NotesScreen from '../screens/NotesScreen';
 import TrashFiles from '../screens/TrashFile';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Stack = createStackNavigator();
 export default function NavigationApp() {
-  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    // Load notes from AsyncStorage when the app starts
+    const loadNotes = async () => {
+      try {
+        const storedNotes = await AsyncStorage.getItem('notes');
+        if (storedNotes) {
+          setNotes(JSON.parse(storedNotes));
+        }
+      } catch (error) {
+        console.error('Error loading notes from AsyncStorage:', error);
+      }
+    };
+
+    loadNotes();
+  }, []);
+
+  const saveNotesToStorage = async (updatedNotes) => {
+    try {
+      // Save the updated notes array to AsyncStorage
+      await AsyncStorage.setItem('notes', JSON.stringify(updatedNotes));
+    } catch (error) {
+      console.error('Error saving notes to AsyncStorage:', error);
+    }
+  };
+
   const [notes, setNotes] = useState([]);
   return (
     <NavigationContainer backgroundColor="#202326">
@@ -37,6 +62,7 @@ export default function NavigationApp() {
           {...props}
           notes={notes}
           setNotes={setNotes}
+          onNoteSaved={saveNotesToStorage}
         />
       )}
     </Stack.Screen>
@@ -77,7 +103,10 @@ export default function NavigationApp() {
         <NotesScreen
           {...props}
           notes={notes}
-          setNotes={setNotes}
+          setNotes={(updatedNotes) => {
+            setNotes(updatedNotes);
+            saveNotesToStorage(updatedNotes);
+          }}
         />
       )}
     </Stack.Screen>

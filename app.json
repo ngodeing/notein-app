@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "NOTEin",
-    "slug": "NOTEin",
+    "slug": "notein",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
