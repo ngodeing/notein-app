@@ -1,8 +1,42 @@
-import { View, Text, StyleSheet, Image, Pressable, ScrollView} from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Text, StyleSheet, Image, Pressable, ScrollView, BackHandler, Alert} from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient'
 
 
 export default function PrimaryScreen({ navigation, route, notes, setNotes, trash}) {
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      handleBackPress
+    );
+
+    return () => {
+      backHandler.remove();
+    };
+  }, []);
+
+  // Fungsi untuk menangani tombol kembali
+  const handleBackPress = () => {
+    // Menampilkan pesan konfirmasi sebelum menutup aplikasi
+    Alert.alert(
+      "Konfirmasi",
+      "Apakah Anda ingin keluar?",
+      [
+        {
+          text: "Tidak",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        {
+          text: "Ya",
+          onPress: () => BackHandler.exitApp()
+        }
+      ]
+    );
+    return true; // true agar tombol kembali tidak melakukan navigasi kembali
+  };
+
     const { nama } = route.params || { nama: "User" };
 
     const updateNotes = (newNotes) => {
