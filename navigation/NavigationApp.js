@@ -1,7 +1,6 @@
 import React, { useState} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import HomeScreen from '../screens/HomeScreen';
 import DetailScreen from '../screens/DetailScreen';
 import LoginScreen from '../screens/LoginScreen';
 import LoginScreen2 from '../screens/LoginScreen2';
@@ -19,11 +18,6 @@ export default function NavigationApp() {
   return (
     <NavigationContainer backgroundColor="#202326">
   <Stack.Navigator>
-    <Stack.Screen
-      name="Home"
-      component={HomeScreen}
-      options={{ headerShown: false }}
-    />
     <Stack.Screen
       name="Detail"
       component={DetailScreen}
