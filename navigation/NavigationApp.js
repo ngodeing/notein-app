@@ -7,6 +7,7 @@ import LoginScreen2 from '../screens/LoginScreen2';
 import PrimaryScreen from '../screens/PrimaryScreen';
 import EditTextScreen from '../screens/EditTextScreen';
 import NoteCategories from '../screens/NoteCategories';
+import OnlyEditScreen from '../screens/OnlyEditScreen';
 import NotesScreen from '../screens/NotesScreen';
 import TrashFiles from '../screens/TrashFile';
 
@@ -34,6 +35,19 @@ export default function NavigationApp() {
     >
       {(props) => (
         <PrimaryScreen
+          {...props}
+          categories={categories}
+          notes={notes}
+          setNotes={setNotes}
+        />
+      )}
+    </Stack.Screen>
+    <Stack.Screen
+      name="OnlyEdit"
+      options={{ headerShown: false }}
+    >
+      {(props) => (
+        <OnlyEditScreen
           {...props}
           categories={categories}
           notes={notes}

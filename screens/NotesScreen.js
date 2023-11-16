@@ -17,6 +17,14 @@ export default function NotesScreen({ route, navigation, notes, setNotes }) {
         initialNoteData: noteData,
       });
     };
+
+    const navigateToOnlyEdit = (noteData, index) => {
+      navigation.navigate('OnlyEdit', {
+        onNoteSaved: updateNotes,
+        initialNoteData: noteData,
+        selectedIndex: index, // Include the index in the navigation params
+      });
+    };
   
     const showDeleteConfirmation = (note) => {
       setNoteToDelete(note);
@@ -82,7 +90,7 @@ export default function NotesScreen({ route, navigation, notes, setNotes }) {
                   <View>
                     <Pressable
                       style={styles.card}
-                      onPress={() => navigateToEditText(note)}
+                      onPress={() => navigateToOnlyEdit(note, index)}
                     >
                       <Text style={styles.textKiri}>{note?.title}</Text>
                       <Text style={styles.paragraph}>{note?.notes}</Text>

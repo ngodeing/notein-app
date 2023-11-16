@@ -9,10 +9,11 @@ export default function PrimaryScreen({ navigation, route, notes, setNotes }) {
       setNotes(newNotes);
     };
 
-    const navigateToEditText = (noteData) => {
-      navigation.navigate('EditText', {
+    const navigateToOnlyEdit = (noteData, index) => {
+      navigation.navigate('OnlyEdit', {
         onNoteSaved: updateNotes,
         initialNoteData: noteData,
+        selectedIndex: index, // Include the index in the navigation params
       });
     };
 
@@ -73,7 +74,7 @@ export default function PrimaryScreen({ navigation, route, notes, setNotes }) {
               <Pressable
                 key={index}
                 style={styles.card}
-                onPress={() => navigateToEditText(item)}
+                onPress={() => navigateToOnlyEdit(item, index)}
               >
                 <Text style={styles.textKiri}>{item?.title}</Text>
                 <Text style={styles.paragraphCP}>{item?.notes}</Text>
