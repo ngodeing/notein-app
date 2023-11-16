@@ -26,8 +26,19 @@ export default function NavigationApp() {
         console.error('Error loading notes from AsyncStorage:', error);
       }
     };
+    const loadTrash = async () => {
+      try {
+        const storedTrash = await AsyncStorage.getItem('trash');
+        if (storedTrash) {
+          setNotes(JSON.parse(storedTrash));
+        }
+      } catch (error) {
+        console.error('Error loading trash from AsyncStorage:', error);
+      }
+    };
 
     loadNotes();
+    loadTrash();
   }, []);
 
   const saveNotesToStorage = async (updatedNotes) => {
@@ -38,8 +49,17 @@ export default function NavigationApp() {
       console.error('Error saving notes to AsyncStorage:', error);
     }
   };
+  const saveTrashToStorage = async (updatedTrash) => {
+    try {
+      // Save the updated Trash array to AsyncStorage
+      await AsyncStorage.setItem('trash', JSON.stringify(updatedTrash));
+    } catch (error) {
+      console.error('Error saving Trash to AsyncStorage:', error);
+    }
+  };
 
   const [notes, setNotes] = useState([]);
+  const [trash, setTrash] = useState([]);
   return (
     <NavigationContainer backgroundColor="#202326">
   <Stack.Navigator>
@@ -61,6 +81,7 @@ export default function NavigationApp() {
         <PrimaryScreen
           {...props}
           notes={notes}
+          trash={trash}
           setNotes={setNotes}
           onNoteSaved={saveNotesToStorage}
         />
@@ -107,14 +128,35 @@ export default function NavigationApp() {
             setNotes(updatedNotes);
             saveNotesToStorage(updatedNotes);
           }}
+          trash={trash}
+          setTrash={(updatedTrash) => {
+            setTrash(updatedTrash);
+            saveNotesToStorage(updatedTrash);
+          }
+          }
         />
       )}
     </Stack.Screen>
     <Stack.Screen
       name="TrashFile"
-      component={TrashFiles}
       options={{ headerShown: false }}
-    />
+    >{(props) => (
+      <TrashFiles
+        {...props}
+        notes={notes}
+        setNotes={(updatedNotes) => {
+          setNotes(updatedNotes);
+          saveNotesToStorage(updatedNotes);
+        }}
+        trash={trash}
+        setTrash={(updatedTrash) => {
+          setTrash(updatedTrash);
+          saveTrashToStorage(updatedTrash);
+        }}
+      />
+    )}
+      
+    </Stack.Screen>
   </Stack.Navigator>
 </NavigationContainer>
   );

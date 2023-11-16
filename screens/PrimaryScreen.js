@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Image, Pressable, ScrollView} from 'react-nativ
 import {LinearGradient} from 'expo-linear-gradient'
 
 
-export default function PrimaryScreen({ navigation, route, notes, setNotes }) {
+export default function PrimaryScreen({ navigation, route, notes, setNotes, trash}) {
     const { nama } = route.params || { nama: "User" };
 
     const updateNotes = (newNotes) => {
@@ -64,7 +64,7 @@ export default function PrimaryScreen({ navigation, route, notes, setNotes }) {
                   source={require('./../assets/images/t4sampahputih.png')}
                 />
                 <Text style={styles.textCD}>Sampah</Text>
-                <Text style={styles.paragraphCD}>{notes.length} Sampah</Text>
+                <Text style={styles.paragraphCD}>{trash.length} Sampah</Text>
               </Pressable>
             </View>
   

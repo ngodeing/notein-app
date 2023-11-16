@@ -1,8 +1,9 @@
 import React, { useState} from 'react';
 import { View, Text, StyleSheet, Image, Pressable, ScrollView, Modal} from 'react-native';
 import { LongPressGestureHandler } from 'react-native-gesture-handler';
+import { saveNotesToStorage, saveTrashToStorage } from './../navigation/NavigationApp';
 
-export default function NotesScreen({ route, navigation, notes, setNotes }) {
+export default function NotesScreen({ route, navigation, notes, setNotes, trash, setTrash }) {
     const [noteToDelete, setNoteToDelete] = useState(null);
     const [confirmationModalVisible, setConfirmationModalVisible] = useState(false);
   
@@ -33,6 +34,11 @@ export default function NotesScreen({ route, navigation, notes, setNotes }) {
     const deleteNote = () => {
       const updatedNotes = notes.filter((note) => note !== noteToDelete);
       setNotes(updatedNotes);
+    
+      // Move the deleted note to the trash array
+      const updatedTrash = [...trash, noteToDelete];
+      setTrash(updatedTrash);
+    
       setNoteToDelete(null);
       setConfirmationModalVisible(false);
     };
@@ -130,6 +136,7 @@ export default function NotesScreen({ route, navigation, notes, setNotes }) {
                   fontSize: 20,
                   fontWeight: 'bold',
                   marginBottom: 20,
+                  textAlign: 'center',
                 }}
               >
                 Apakah catatan ini ingin dihapus?

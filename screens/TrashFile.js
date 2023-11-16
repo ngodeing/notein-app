@@ -1,13 +1,24 @@
-import { View, Text, StyleSheet, Image, Pressable, ScrollView} from 'react-native';
+import {Modal, View, Text, StyleSheet, Image, Pressable, ScrollView} from 'react-native';
+import { LongPressGestureHandler } from 'react-native-gesture-handler';
+import React, { useState} from 'react';
 
 
-export default function TrashFiles({ navigation }) {
-    const categories = [
-      { title: "Desigm System"},
-      { title: "Gestalt Principles"},
-      // Tambahkan lebih banyak kategori jika diperlukan
-    ];
+export default function TrashFiles({ navigation, trash, setTrash}) {
+  const [trashToDelete, setTrashToDelete] = useState(null);
+  const [confirmationModalVisible, setConfirmationModalVisible] = useState(false);
   
+  const deleteTrash = () => {
+    const updatedTrash = trash.filter((trash) => trash !== trashToDelete);
+    setTrash(updatedTrash);
+  
+    setTrashToDelete(null);
+    setConfirmationModalVisible(false);
+  };
+  
+  const showDeleteConfirmation = (trash) => {
+    setTrashToDelete(trash);
+    setConfirmationModalVisible(true);
+  };
     return (
       <View style={{ backgroundColor: '#202326', flex:1, }}>
       <ScrollView>
@@ -20,18 +31,75 @@ export default function TrashFiles({ navigation }) {
         />
           </Pressable>
         <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#202326', paddingTop: 0 }}>
-          <Text style={styles.judulKiri}>Trash note's</Text>
+          <Text style={styles.judulKiri}>Tempat Sampah</Text>
           <View style={{flexDirection:'row', gap:20, flexWrap:"wrap", justifyContent:"center"}}>
-          {categories.map((category, index) => (
-            <Pressable
+          {trash.map((trash, index) => (
+            <LongPressGestureHandler
+            key={index}
+            onHandlerStateChange={({ nativeEvent }) => {
+              if (nativeEvent.state === 4) {
+                showDeleteConfirmation(trash);
+              }
+            }}
+          >
+            <View
               key={index}
               style={styles.cardPendek}
               marginBottom = {0}
-              onPress={() => navigation.navigate('Primary')}>
-              <Text style={styles.textCD}>{category.title}</Text>
-              <Text style={styles.paragraphCD}>{category.notes}</Text>
-            </Pressable>
+              >
+              <Text style={styles.textCD}>{trash.title}</Text>
+              <Text style={styles.paragraphCD}>{trash.notes}</Text>
+            </View>
+            </LongPressGestureHandler>
           ))}
+          <Modal
+          animationType="slide"
+          transparent={true}
+          visible={confirmationModalVisible}
+          onRequestClose={() => setConfirmationModalVisible(false)}
+        >
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              padding: 20,
+              backgroundColor: '#2F3235',
+              alignItems: 'center',
+            }}
+          >
+            <View>
+              <Text
+                style={{
+                  color: 'white',
+                  fontSize: 20,
+                  fontWeight: 'bold',
+                  marginBottom: 20,
+                  textAlign: 'center',
+                }}
+              >
+                Apakah catatan ini ingin dihapus secara permanen?
+              </Text>
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: 'row-reverse',
+                  justifyContent: 'center',
+                  gap: 20,
+                }}
+              >
+                <Pressable onPress={deleteTrash} style={styles.addButtonS}>
+                  <Text style={{ color: 'white' }}>Ya</Text>
+                </Pressable>
+                <Pressable
+                  onPress={() => setConfirmationModalVisible(false)}
+                  style={styles.addButtonS}
+                >
+                  <Text style={{ color: 'white' }}>Tidak</Text>
+                </Pressable>
+              </View>
+            </View>
+          </View>
+        </Modal>
           </View>
         </View>
       </ScrollView>
