@@ -4,10 +4,10 @@
     "slug": "notein",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/notein.jpg",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/notein.jpg",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#202326"
     },
@@ -19,7 +19,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/notein.jpg",
+        "foregroundImage": "./assets/notein.png",
         "backgroundColor": "#202326"
       },
       "package": "com.taufiknrrr.notein"
