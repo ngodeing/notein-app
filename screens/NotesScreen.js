@@ -101,7 +101,7 @@ export default function NotesScreen({ navigation, notes, setNotes, trash, setTra
                     </Pressable>
                   </View>
                 </LongPressGestureHandler>
-              ))}
+              )).reverse()}
             </View>
           </View>
         </ScrollView>

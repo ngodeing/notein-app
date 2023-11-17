@@ -104,7 +104,7 @@ export default function PrimaryScreen({ navigation, route, notes, setNotes, tras
   
             <Text style={styles.judul2Kiri}>Terbaru</Text>
   
-          {notes.map((item, index) => (
+          {notes.slice(-3).map((item, index) => (
               <Pressable
                 key={index}
                 style={styles.card}
@@ -113,7 +113,7 @@ export default function PrimaryScreen({ navigation, route, notes, setNotes, tras
                 <Text style={styles.textKiri}>{item?.title}</Text>
                 <Text style={styles.paragraphCP}>{item?.notes}</Text>
               </Pressable>
-            ))}
+            )).reverse()}
       </View>
       </ScrollView>
       </View>
