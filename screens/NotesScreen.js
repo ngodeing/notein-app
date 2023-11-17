@@ -1,9 +1,8 @@
 import React, { useState} from 'react';
 import { View, Text, StyleSheet, Image, Pressable, ScrollView, Modal} from 'react-native';
 import { LongPressGestureHandler } from 'react-native-gesture-handler';
-import { saveNotesToStorage, saveTrashToStorage } from './../navigation/NavigationApp';
 
-export default function NotesScreen({ route, navigation, notes, setNotes, trash, setTrash }) {
+export default function NotesScreen({ navigation, notes, setNotes, trash, setTrash }) {
     const [noteToDelete, setNoteToDelete] = useState(null);
     const [confirmationModalVisible, setConfirmationModalVisible] = useState(false);
   
