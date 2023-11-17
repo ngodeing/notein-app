@@ -51,10 +51,17 @@ export default function PrimaryScreen({ navigation, route, notes, setNotes, tras
       });
     };
 
+    const navigateToEditText = (noteData) => {
+      navigation.navigate('EditText', {
+        onNoteSaved: updateNotes,
+        initialNoteData: noteData,
+      });
+    };
+
     return (
       <View style={{ flex: 1, backgroundColor: '#202326' }}>
         <ScrollView>
-          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#202326', paddingTop: 80 }}>
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#202326', paddingTop: 60 }}>
             <Text style={styles.judul2Kiri}>Hello {nama}</Text>
             <Pressable
               style={styles.cardPanjang}
@@ -116,6 +123,14 @@ export default function PrimaryScreen({ navigation, route, notes, setNotes, tras
             )).reverse()}
       </View>
       </ScrollView>
+      <View style={styles.addButtonContainer}>
+          <Pressable
+            style={styles.addButton}
+            onPress={navigateToEditText}
+          >
+            <Text style={styles.addButtonText}>+</Text>
+          </Pressable>
+        </View>
       </View>
       
       

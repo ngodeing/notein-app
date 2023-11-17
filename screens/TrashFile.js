@@ -23,7 +23,7 @@ export default function TrashFiles({ navigation, trash, setTrash}) {
       <View style={{ backgroundColor: '#202326', flex:1, }}>
       <ScrollView>
               <Pressable
-          style={{flex: 1, flexDirection: 'row', width: 370, justifyContent: 'space-between' , marginTop:70, marginBottom:50}}
+          style={{flex: 1, flexDirection: 'row', width: 370, justifyContent: 'space-between' , marginTop:50, marginBottom:50}}
           onPress={() => navigation.navigate('Primary')}>
             <Image
           style={{width: 20, height: 20, marginLeft: 20, justifyContent: 'flex-start'}}
@@ -31,7 +31,7 @@ export default function TrashFiles({ navigation, trash, setTrash}) {
         />
           </Pressable>
         <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#202326', paddingTop: 0 }}>
-          <Text style={styles.judulKiri}>Tempat Sampah</Text>
+          <Text style={styles.judulKiri}>Sampah</Text>
           <View style={{flexDirection:'row', gap:20, flexWrap:"wrap", justifyContent:"center"}}>
           {trash.map((trash, index) => (
             <LongPressGestureHandler

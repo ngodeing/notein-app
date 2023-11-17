@@ -51,7 +51,7 @@ export default function NotesScreen({ navigation, notes, setNotes, trash, setTra
               flexDirection: 'row',
               width: 370,
               justifyContent: 'space-between',
-              marginTop: 70,
+              marginTop: 50,
               marginBottom: 50,
             }}
             onPress={() => navigation.navigate('Primary')}
