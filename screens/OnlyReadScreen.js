@@ -30,7 +30,7 @@ export default function OnlyReadScreen({navigation, route}) {
         <View
         style={{flex: 1, flexDirection: 'row', width: 370, justifyContent: 'space-between' , marginBottom: 50}}
         >
-        <Pressable onPress={() => navigation.navigate('Notes')}>
+        <Pressable onPress={() => navigation.navigate('Primary')}>
             <Image
           style={{width: 20, height: 20, marginLeft: 20, justifyContent: 'flex-start'}}
           source={require('./../assets/images/back.png')}

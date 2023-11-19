@@ -10,7 +10,7 @@ export default function LoginScreen2({ navigation }) {
       if (email === '' || kataSandi === '') {
         setErrorText('Email dan Kata Sandi harus diisi');
       } else {
-        navigation.navigate('Primary');
+        setErrorText('Email Belum Terdaftar');
       }
     };
   
