@@ -44,11 +44,11 @@ export default function TrashFiles({ navigation, trash, setTrash}) {
           >
             <View
               key={index}
-              style={styles.cardPendek}
+              style={styles.cardPanjang}
               marginBottom = {0}
               >
-              <Text style={styles.textCD}>{trash.title}</Text>
-              <Text style={styles.paragraphCD}>{trash.notes}</Text>
+              <Text style={styles.textCP}>{trash.title}</Text>
+              <Text style={styles.paragraphCP}>{trash.notes}</Text>
             </View>
             </LongPressGestureHandler>
           ))}
@@ -63,7 +63,8 @@ export default function TrashFiles({ navigation, trash, setTrash}) {
               flex: 1,
               justifyContent: 'center',
               padding: 20,
-              backgroundColor: '#2F3235',
+              paddingTop: 250,
+              backgroundColor: '#202326',
               alignItems: 'center',
             }}
           >
@@ -87,7 +88,7 @@ export default function TrashFiles({ navigation, trash, setTrash}) {
                   gap: 20,
                 }}
               >
-                <Pressable onPress={deleteTrash} style={styles.addButtonS}>
+                <Pressable onPress={deleteTrash} style={styles.addButtonY}>
                   <Text style={{ color: 'white' }}>Ya</Text>
                 </Pressable>
                 <Pressable
@@ -285,6 +286,15 @@ export default function TrashFiles({ navigation, trash, setTrash}) {
       height: 50,
       borderRadius: 15,
       backgroundColor: '#007DFF',
+      alignItems: 'center',
+      justifyContent: 'center',
+      elevation: 5,
+    },
+    addButtonY: {
+      width: 100,
+      height: 50,
+      borderRadius: 15,
+      backgroundColor: '#FE0000',
       alignItems: 'center',
       justifyContent: 'center',
       elevation: 5,

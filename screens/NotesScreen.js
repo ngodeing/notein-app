@@ -125,7 +125,8 @@ export default function NotesScreen({ navigation, notes, setNotes, trash, setTra
               flex: 1,
               justifyContent: 'center',
               padding: 20,
-              backgroundColor: '#2F3235',
+              paddingTop: 250,
+              backgroundColor: '#202326',
               alignItems: 'center',
             }}
           >
@@ -149,7 +150,7 @@ export default function NotesScreen({ navigation, notes, setNotes, trash, setTra
                   gap: 20,
                 }}
               >
-                <Pressable onPress={deleteNote} style={styles.addButtonS}>
+                <Pressable onPress={deleteNote} style={styles.addButtonY}>
                   <Text style={{ color: 'white' }}>Ya</Text>
                 </Pressable>
                 <Pressable
@@ -352,6 +353,15 @@ export default function NotesScreen({ navigation, notes, setNotes, trash, setTra
       color: 'white',
       fontSize: 24,
       fontWeight: 'bold',
+    },
+    addButtonY: {
+      width: 100,
+      height: 50,
+      borderRadius: 15,
+      backgroundColor: '#FE0000',
+      alignItems: 'center',
+      justifyContent: 'center',
+      elevation: 5,
     },
     }
     

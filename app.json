@@ -3,7 +3,7 @@
     "name": "NOTEin",
     "slug": "notein",
     "version": "1.0.0",
-    "orientation": "auto",
+    "orientation": "default",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
