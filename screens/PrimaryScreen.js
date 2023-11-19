@@ -66,8 +66,8 @@ export default function PrimaryScreen({ navigation, route, notes, setNotes, tras
       setNotes(newNotes);
     };
 
-    const navigateToOnlyEdit = (noteData, index) => {
-      navigation.navigate('OnlyEdit', {
+    const navigateToOnlyRead = (noteData, index) => {
+      navigation.navigate('OnlyRead', {
         onNoteSaved: updateNotes,
         initialNoteData: noteData,
         selectedIndex: index, // Include the index in the navigation params
@@ -139,7 +139,7 @@ export default function PrimaryScreen({ navigation, route, notes, setNotes, tras
               <Pressable
                 key={index}
                 style={styles.card}
-                onPress={() => navigateToOnlyEdit(item, index)}
+                onPress={() => navigateToOnlyRead(item, index)}
               >
                 <Text style={styles.textKiri}>{item?.title}</Text>
                 <Text style={styles.paragraphCP}>{item?.notes}</Text>
