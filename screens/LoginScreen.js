@@ -1,5 +1,6 @@
 import React, { useState} from 'react';
 import { View, Text, StyleSheet, Pressable, TextInput, ScrollView} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function LoginScreen({ navigation }) {
     const [nama, setNama] = useState('');
@@ -11,13 +12,26 @@ export default function LoginScreen({ navigation }) {
       navigation.navigate('Login2');
     };
   
-    const handleDaftar = () => {
+    const handleDaftar = async () => {
       if (nama === '' || email === '' || kataSandi === '') {
-        // Set pesan kesalahan jika salah satu input kosong
         setErrorText('Jangan kosongkan bagian yang belum diisi');
       } else {
-        // Lanjutkan dengan navigasi jika semua input telah diisi
-        navigation.navigate('Primary', { nama: nama });
+        try {
+          // Cek apakah nama sudah ada di AsyncStorage
+          const storedNama = await AsyncStorage.getItem('nama');
+          if (storedNama) {
+            // Nama sudah ada, lanjutkan dengan navigasi ke PrimaryScreen
+            navigation.navigate('Primary', { nama: storedNama });
+          } else {
+            // Simpan nama ke AsyncStorage
+            await AsyncStorage.setItem('nama', nama);
+    
+            // Lanjutkan dengan navigasi ke PrimaryScreen
+            navigation.navigate('Primary', { nama: nama });
+          }
+        } catch (error) {
+          console.error('Gagal menyimpan atau membaca nama dari AsyncStorage', error);
+        }
       }
     };
   

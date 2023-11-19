@@ -30,7 +30,7 @@ export default function NavigationApp() {
       try {
         const storedTrash = await AsyncStorage.getItem('trash');
         if (storedTrash) {
-          setNotes(JSON.parse(storedTrash));
+          setTrash(JSON.parse(storedTrash));
         }
       } catch (error) {
         console.error('Error loading trash from AsyncStorage:', error);
@@ -60,6 +60,7 @@ export default function NavigationApp() {
 
   const [notes, setNotes] = useState([]);
   const [trash, setTrash] = useState([]);
+
   return (
     <NavigationContainer backgroundColor="#202326">
   <Stack.Navigator>
@@ -67,6 +68,7 @@ export default function NavigationApp() {
       name="Detail"
       component={DetailScreen}
       options={{ headerShown: false }}
+      initialParams={{ checkAsyncStorage: true }}
     />
     <Stack.Screen
       name="Login"
@@ -81,9 +83,16 @@ export default function NavigationApp() {
         <PrimaryScreen
           {...props}
           notes={notes}
+          setNotes={(updatedNotes) => {
+            setNotes(updatedNotes);
+            saveNotesToStorage(updatedNotes);
+          }}
           trash={trash}
-          setNotes={setNotes}
-          onNoteSaved={saveNotesToStorage}
+          setTrash={(updatedTrash) => {
+            setTrash(updatedTrash);
+            saveTrashToStorage(updatedTrash);
+          }
+          }
         />
       )}
     </Stack.Screen>
@@ -131,7 +140,7 @@ export default function NavigationApp() {
           trash={trash}
           setTrash={(updatedTrash) => {
             setTrash(updatedTrash);
-            saveNotesToStorage(updatedTrash);
+            saveTrashToStorage(updatedTrash);
           }
           }
         />

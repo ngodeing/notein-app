@@ -1,6 +1,32 @@
+import React, { useEffect } from 'react';
 import { ScrollView, View, Text, StyleSheet, Image, Pressable} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function DetailScreen({ navigation }) {
+export default function DetailScreen({ navigation, route }) {
+  const { checkAsyncStorage } = route.params;
+
+  useEffect(() => {
+    const checkAndNavigate = async () => {
+      try {
+        // Cek apakah ada nilai pada AsyncStorage untuk kunci 'nama'
+        const storedNama = await AsyncStorage.getItem('nama');
+
+        // Jika ada nilai, navigasi ke PrimaryScreen
+        if (storedNama) {
+          navigation.navigate('Primary', { nama: storedNama });
+        }
+        // Jika tidak ada nilai, tidak melakukan apa-apa
+      } catch (error) {
+        console.error('Error checking AsyncStorage:', error);
+      }
+    };
+
+    // Panggil fungsi untuk memeriksa dan melakukan navigasi jika diperlukan
+    if (checkAsyncStorage) {
+      checkAndNavigate();
+    }
+  }, [checkAsyncStorage, navigation]);
+
     return (
       <ScrollView style={{backgroundColor:'#202326'}}>
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor:'#202326', paddingVertical:100}}>

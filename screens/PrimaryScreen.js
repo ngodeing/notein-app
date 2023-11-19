@@ -1,20 +1,45 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, Pressable, ScrollView, BackHandler, Alert} from 'react-native';
-import {LinearGradient} from 'expo-linear-gradient'
+import {LinearGradient} from 'expo-linear-gradient';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function PrimaryScreen({ navigation, route, notes, setNotes, trash}) {
 
+  const [nama, setNama] = useState("User");
+
   useEffect(() => {
+    const loadNamaFromStorage = async () => {
+      try {
+        const storedNama = await AsyncStorage.getItem('nama');
+        if (storedNama) {
+          setNama(storedNama);
+        }
+      } catch (error) {
+        console.error('Error loading nama from AsyncStorage:', error);
+      }
+    };
+
+    // Cek apakah ada nama di params
+    if (route.params && route.params.nama) {
+      setNama(route.params.nama);
+    } else {
+      // Jika tidak ada di params, coba ambil dari AsyncStorage
+      loadNamaFromStorage();
+    }
+
+    // Tambahkan event listener untuk hardware back press
     const backHandler = BackHandler.addEventListener(
       'hardwareBackPress',
       handleBackPress
     );
 
+    // Hapus event listener saat komponen unmount
     return () => {
       backHandler.remove();
     };
-  }, []);
+  }, [route.params]);
+
 
   // Fungsi untuk menangani tombol kembali
   const handleBackPress = () => {
@@ -36,8 +61,6 @@ export default function PrimaryScreen({ navigation, route, notes, setNotes, tras
     );
     return true; // true agar tombol kembali tidak melakukan navigasi kembali
   };
-
-    const { nama } = route.params || { nama: "User" };
 
     const updateNotes = (newNotes) => {
       setNotes(newNotes);
