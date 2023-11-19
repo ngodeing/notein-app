@@ -39,7 +39,7 @@ export default function EditTextScreen({navigation, route,notes}) {
   
     return (
       <ScrollView backgroundColor= '#202326'>
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#202326', paddingTop:80 }}>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#202326', paddingTop:50 }}>
         <View
         style={{flex: 1, flexDirection: 'row', width: 370, justifyContent: 'space-between' , marginBottom: 50}}
         >

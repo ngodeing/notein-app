@@ -1,8 +1,9 @@
-import { View, Text, StyleSheet, Image, Pressable} from 'react-native';
+import { ScrollView, View, Text, StyleSheet, Image, Pressable} from 'react-native';
 
 export default function DetailScreen({ navigation }) {
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor:'#202326'}}>
+      <ScrollView style={{backgroundColor:'#202326'}}>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor:'#202326', paddingVertical:100}}>
         <Image
           style={styles.image}
           source={require('./../assets/images/first.png')}
@@ -15,7 +16,8 @@ export default function DetailScreen({ navigation }) {
           onPress={() => navigation.navigate('Login')}>
           <Text style={styles.text}>Ayo Mulai</Text>
           </Pressable>
-      </View>
+          </View>
+      </ScrollView>
     );
   }
 

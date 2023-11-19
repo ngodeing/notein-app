@@ -67,10 +67,11 @@ export default function PrimaryScreen({ navigation, route, notes, setNotes, tras
               style={styles.cardPanjang}
               flexDirection='row'
               gap={20}
+              onPress={() => navigation.navigate('Notes')}
             >
               <View style={{ justifyContent: 'flex-start' }}>
-                <Text style={styles.textCP}>Progress Hari ini</Text>
-                <Text style={styles.paragraphCP}>Kamu telah membuat {notes.length} Notes selama ini Teruskan!</Text>
+                <Text style={styles.textCP}>Progress Saat ini</Text>
+                <Text style={styles.paragraphCP}>Kamu telah membuat {notes.length} Notes saat ini Teruskan!</Text>
               </View>
               <View style={styles.progressContainer}>
                 <LinearGradient

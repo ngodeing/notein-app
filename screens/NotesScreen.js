@@ -80,6 +80,7 @@ export default function NotesScreen({ navigation, notes, setNotes, trash, setTra
                 flexDirection: 'row',
                 flexWrap: 'wrap',
                 justifyContent: 'center',
+                columnGap:20,
               }}
             >
               {notes.map((note, index) => (

@@ -1,5 +1,5 @@
 import React, { useState} from 'react';
-import { View, Text, StyleSheet, Pressable, TextInput} from 'react-native';
+import { View, Text, StyleSheet, Pressable, TextInput, ScrollView} from 'react-native';
 
 export default function LoginScreen({ navigation }) {
     const [nama, setNama] = useState('');
@@ -22,7 +22,8 @@ export default function LoginScreen({ navigation }) {
     };
   
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#202326' }}>
+      <ScrollView style={{backgroundColor:'#202326'}}>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#202326', paddingVertical:100 }}>
         <Text style={styles.judulKiri}>Siap Menjadi Produktif? Daftar</Text>
         <Text style={styles.textKiri} marginTop={30}>Nama</Text>
         <TextInput
@@ -59,6 +60,7 @@ export default function LoginScreen({ navigation }) {
           <Text style={styles.masuk} onPress={handleNavigation}> Masuk</Text>
         </Text>
       </View>
+      </ScrollView>
     );
   }
 
