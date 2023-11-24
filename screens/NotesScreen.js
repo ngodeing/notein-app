@@ -234,7 +234,7 @@ export default function NotesScreen({ navigation, notes, setNotes, trash, setTra
       fontWeight: 'medium',
       fontSize: 16,
       color: 'gray',
-      width: 320,
+      width: 300,
     },
     paragraphCP: {
       fontWeight: 'medium',
@@ -323,7 +323,7 @@ export default function NotesScreen({ navigation, notes, setNotes, trash, setTra
       fontWeight: 'bold',
       fontSize: 16,
       color: 'white',
-      width: 320,
+      width: 300,
       marginBottom: 10,
     },
     addButtonContainer: {

@@ -44,11 +44,11 @@ export default function TrashFiles({ navigation, trash, setTrash}) {
           >
             <View
               key={index}
-              style={styles.cardPanjang}
+              style={styles.card}
               marginBottom = {0}
               >
-              <Text style={styles.textCP}>{trash.title}</Text>
-              <Text style={styles.paragraphCP}>{trash.notes}</Text>
+              <Text style={styles.textKiri}>{trash.title}</Text>
+              <Text style={styles.paragraph}>{trash.notes}</Text>
             </View>
             </LongPressGestureHandler>
           ))}
@@ -175,7 +175,7 @@ export default function TrashFiles({ navigation, trash, setTrash}) {
       fontWeight: 'medium',
       fontSize: 16,
       color: 'gray',
-      width: 320,
+      width: 300,
     },
     paragraphCP: {
       fontWeight: 'medium',
@@ -264,7 +264,7 @@ export default function TrashFiles({ navigation, trash, setTrash}) {
       fontWeight: 'bold',
       fontSize: 16,
       color: 'white',
-      width: 320,
+      width: 300,
       marginBottom: 10,
     },
     addButtonContainer: {

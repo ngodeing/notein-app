@@ -77,27 +77,6 @@ export default function NavigationApp() {
       options={{ headerShown: false }}
     />
     <Stack.Screen
-      name="Primary"
-      options={{ headerShown: false }}
-    >
-      {(props) => (
-        <PrimaryScreen
-          {...props}
-          notes={notes}
-          setNotes={(updatedNotes) => {
-            setNotes(updatedNotes);
-            saveNotesToStorage(updatedNotes);
-          }}
-          trash={trash}
-          setTrash={(updatedTrash) => {
-            setTrash(updatedTrash);
-            saveTrashToStorage(updatedTrash);
-          }
-          }
-        />
-      )}
-    </Stack.Screen>
-    <Stack.Screen
       name="OnlyEdit"
       options={{ headerShown: false }}
     >
@@ -178,6 +157,27 @@ export default function NavigationApp() {
       />
     )}
       
+    </Stack.Screen>
+    <Stack.Screen
+      name="Primary"
+      options={{ headerShown: false }}
+    >
+      {(props) => (
+        <PrimaryScreen
+          {...props}
+          notes={notes}
+          setNotes={(updatedNotes) => {
+            setNotes(updatedNotes);
+            saveNotesToStorage(updatedNotes);
+          }}
+          trash={trash}
+          setTrash={(updatedTrash) => {
+            setTrash(updatedTrash);
+            saveTrashToStorage(updatedTrash);
+          }
+          }
+        />
+      )}
     </Stack.Screen>
   </Stack.Navigator>
 </NavigationContainer>

@@ -3,37 +3,46 @@ import { View, Text, StyleSheet, Pressable, TextInput, ScrollView} from 'react-n
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function LoginScreen({ navigation }) {
-    const [nama, setNama] = useState('');
-    const [email, setEmail] = useState('');
-    const [kataSandi, setKataSandi] = useState('');
-    const [errorText, setErrorText] = useState('');
-  
-    const handleNavigation = () => {
-      navigation.navigate('Login2');
-    };
-  
-    const handleDaftar = async () => {
-      if (nama === '' || email === '' || kataSandi === '') {
-        setErrorText('Jangan kosongkan bagian yang belum diisi');
-      } else {
-        try {
-          // Cek apakah nama sudah ada di AsyncStorage
-          const storedNama = await AsyncStorage.getItem('nama');
-          if (storedNama) {
-            // Nama sudah ada, lanjutkan dengan navigasi ke PrimaryScreen
-            navigation.navigate('Primary', { nama: storedNama });
-          } else {
-            // Simpan nama ke AsyncStorage
-            await AsyncStorage.setItem('nama', nama);
-    
-            // Lanjutkan dengan navigasi ke PrimaryScreen
-            navigation.navigate('Primary', { nama: nama });
-          }
-        } catch (error) {
-          console.error('Gagal menyimpan atau membaca nama dari AsyncStorage', error);
+  const [nama, setNama] = useState('');
+  const [email, setEmail] = useState('');
+  const [kataSandi, setKataSandi] = useState('');
+  const [errorText, setErrorText] = useState('');
+
+  const handleNavigation = () => {
+    navigation.navigate('Login2');
+  };
+
+  const handleDaftar = async () => {
+    if (nama === '') {
+      setErrorText('Nama Tidak boleh kosong');
+    } else if (nama === !/^[a-zA-Z]+$/.test(nama)){
+      setErrorText('Nama Hanya huruf dan Tanpa Spasi');
+    } else if (email === '') {
+      setErrorText('Email Tidak boleh kosong');
+    } else if (email === '' || !email.includes('@')) {
+      setErrorText('Sertakan @ pada Email');
+    } else if (kataSandi === '') {
+      setErrorText('Masukkan kata sandi');
+    } else {
+      try {
+        // Cek apakah nama sudah ada di AsyncStorage
+        const storedNama = await AsyncStorage.getItem('nama');
+        if (storedNama) {
+          // Nama sudah ada, lanjutkan dengan navigasi ke PrimaryScreen
+          navigation.navigate('Primary', { nama: storedNama });
+        } else {
+          // Simpan nama ke AsyncStorage
+          await AsyncStorage.setItem('nama', nama);
+
+          // Lanjutkan dengan navigasi ke PrimaryScreen
+          navigation.navigate('Primary', { nama: nama });
         }
+      } catch (error) {
+        console.error('Gagal menyimpan atau membaca nama dari AsyncStorage', error);
       }
-    };
+    }
+  };
+    
   
     return (
       <ScrollView style={{backgroundColor:'#202326'}}>
@@ -45,11 +54,13 @@ export default function LoginScreen({ navigation }) {
           placeholder="Masukkan Nama"
           placeholderTextColor="grey"
           value={nama}
+          maxLength={40}
           onChangeText={(text) => setNama(text)}
         />
         <Text style={styles.textKiri}>Email</Text>
         <TextInput
           style={styles.input}
+          maxLength={40}
           placeholder="Masukkan Email"
           placeholderTextColor="grey"
           value={email}
@@ -62,6 +73,7 @@ export default function LoginScreen({ navigation }) {
           secureTextEntry={true}
           placeholderTextColor="grey"
           value={kataSandi}
+          maxLength={60}
           onChangeText={(text) => setKataSandi(text)}
           marginBottom={150}
         />

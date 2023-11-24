@@ -9,6 +9,8 @@ export default function LoginScreen2({ navigation }) {
     const handleLogin = () => {
       if (email === '' || kataSandi === '') {
         setErrorText('Email dan Kata Sandi harus diisi');
+      } else if (email === '' || !email.includes('@')) {
+        setErrorText('Sertakan @ pada Email');
       } else {
         setErrorText('Email Belum Terdaftar');
       }
@@ -23,6 +25,7 @@ export default function LoginScreen2({ navigation }) {
           style={styles.input}
           placeholder="Masukkan Email"
           placeholderTextColor="grey"
+          maxlength={40}
           value={email}
           onChangeText={(text) => setEmail(text)}
         />
@@ -32,6 +35,7 @@ export default function LoginScreen2({ navigation }) {
           placeholder="Masukkan Kata Sandi"
           secureTextEntry={true}
           placeholderTextColor="grey"
+          maxlength={60}
           value={kataSandi}
           onChangeText={(text) => setKataSandi(text)}
           marginBottom={150}

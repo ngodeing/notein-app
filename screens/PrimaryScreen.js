@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState} from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { View, Text, StyleSheet, Image, Pressable, ScrollView, BackHandler, Alert} from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -7,6 +8,25 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function PrimaryScreen({ navigation, route, notes, setNotes, trash}) {
 
   const [nama, setNama] = useState("User");
+
+  const handleBackPress = () => {
+    Alert.alert(
+      "Konfirmasi",
+      "Apakah Anda ingin keluar?",
+      [
+        {
+          text: "Tidak",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        {
+          text: "Ya",
+          onPress: () => BackHandler.exitApp()
+        }
+      ]
+    );
+    return true;
+  };
 
   useEffect(() => {
     const loadNamaFromStorage = async () => {
@@ -27,40 +47,21 @@ export default function PrimaryScreen({ navigation, route, notes, setNotes, tras
       // Jika tidak ada di params, coba ambil dari AsyncStorage
       loadNamaFromStorage();
     }
-
-    // Tambahkan event listener untuk hardware back press
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      handleBackPress
-    );
-
-    // Hapus event listener saat komponen unmount
-    return () => {
-      backHandler.remove();
-    };
+    
   }, [route.params]);
 
+  useFocusEffect(
+    React.useCallback(() => {
+      const backHandler = BackHandler.addEventListener(
+        'hardwareBackPress',
+        handleBackPress
+      );
 
-  // Fungsi untuk menangani tombol kembali
-  const handleBackPress = () => {
-    // Menampilkan pesan konfirmasi sebelum menutup aplikasi
-    Alert.alert(
-      "Konfirmasi",
-      "Apakah Anda ingin keluar?",
-      [
-        {
-          text: "Tidak",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-        {
-          text: "Ya",
-          onPress: () => BackHandler.exitApp()
-        }
-      ]
-    );
-    return true; // true agar tombol kembali tidak melakukan navigasi kembali
-  };
+      return () => {
+        backHandler.remove();
+      };
+    }, [])
+  );
 
     const updateNotes = (newNotes) => {
       setNotes(newNotes);
@@ -142,7 +143,7 @@ export default function PrimaryScreen({ navigation, route, notes, setNotes, tras
                 onPress={() => navigateToOnlyRead(item, index)}
               >
                 <Text style={styles.textKiri}>{item?.title}</Text>
-                <Text style={styles.paragraphCP}>{item?.notes}</Text>
+                <Text style={styles.paragraph}>{item?.notes}</Text>
               </Pressable>
             )).reverse()}
       </View>
@@ -228,7 +229,7 @@ export default function PrimaryScreen({ navigation, route, notes, setNotes, tras
       fontWeight: 'medium',
       fontSize: 16,
       color: 'gray',
-      width: 320,
+      width: 300,
     },
     paragraphCP: {
       fontWeight: 'medium',
@@ -317,7 +318,7 @@ export default function PrimaryScreen({ navigation, route, notes, setNotes, tras
       fontWeight: 'bold',
       fontSize: 16,
       color: 'white',
-      width: 320,
+      width: 300,
       marginBottom: 10,
     },
     addButtonContainer: {
