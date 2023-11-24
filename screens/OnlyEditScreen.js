@@ -13,15 +13,6 @@ export default function OnlyEditScreen({navigation, route,notes}) {
           setText(initialNoteData.notes || '');
         }
       }, [initialNoteData]);
-    
-    const calculateNumberOfLinesjudul = () => {
-      const lines = textjudul.split('\n');
-      return lines.length;
-    }
-    const calculateNumberOfLines = () => {
-      const lines = text.split('\n');
-      return lines.length;
-    };
   
     const handleSave = () => {
         const editedNote = { title: textjudul, notes: text };
@@ -56,11 +47,16 @@ export default function OnlyEditScreen({navigation, route,notes}) {
         </View>
         <TextInput
           style={{ fontSize: 30, fontWeight: 'bold', textAlign: 'left', marginBottom: 20, marginLeft: 30, color: 'white', width: 300,
-          height: 20 + (calculateNumberOfLinesjudul()*35) }}
+          height: 70}}
+          maxLength={35}
           placeholder="Tambahkan Judul"
           multiline={true}
           value={textjudul}
-          onChangeText={setTextjudul}
+          onChangeText={(text) => {
+            // Menghilangkan karakter khusus seperti \n
+            const sanitizedText = text.replace(/\n/g, '');
+            setTextjudul(sanitizedText);
+          }}
           placeholderTextColor="grey"
         />
         <TextInput
@@ -71,8 +67,8 @@ export default function OnlyEditScreen({navigation, route,notes}) {
             marginBottom: 20,
             marginLeft: 32,
             color: 'white',
-            width: 300,
-            height: 50 + (calculateNumberOfLines()*20),
+            width: 335,
+            height: 600,
             paddingTop: 10,
           }}
           placeholder="Tambahkan Teks"

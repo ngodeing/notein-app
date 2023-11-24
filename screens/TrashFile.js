@@ -47,8 +47,8 @@ export default function TrashFiles({ navigation, trash, setTrash}) {
               style={styles.card}
               marginBottom = {0}
               >
-              <Text style={styles.textKiri}>{trash.title}</Text>
-              <Text style={styles.paragraph}>{trash.notes}</Text>
+              <Text style={styles.textKiri} numberOfLines={1}>{trash.title}</Text>
+              <Text style={styles.paragraph} numberOfLines={2}>{trash.notes}</Text>
             </View>
             </LongPressGestureHandler>
           ))}

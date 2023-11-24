@@ -142,8 +142,8 @@ export default function PrimaryScreen({ navigation, route, notes, setNotes, tras
                 style={styles.card}
                 onPress={() => navigateToOnlyRead(item, index)}
               >
-                <Text style={styles.textKiri}>{item?.title}</Text>
-                <Text style={styles.paragraph}>{item?.notes}</Text>
+                <Text style={styles.textKiri} numberOfLines={1}>{item?.title}</Text>
+                <Text style={styles.paragraph} numberOfLines={2}>{item?.notes}</Text>
               </Pressable>
             )).reverse()}
       </View>

@@ -97,8 +97,8 @@ export default function NotesScreen({ navigation, notes, setNotes, trash, setTra
                       style={styles.card}
                       onPress={() => navigateToOnlyEdit(note, index)}
                     >
-                      <Text style={styles.textKiri}>{note?.title}</Text>
-                      <Text style={styles.paragraph}>{note?.notes}</Text>
+                      <Text style={styles.textKiri} numberOfLines={1}>{note?.title}</Text>
+                      <Text style={styles.paragraph} numberOfLines={2}>{note?.notes}</Text>
                     </Pressable>
                   </View>
                 </LongPressGestureHandler>

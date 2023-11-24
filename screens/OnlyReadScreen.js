@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Image, Pressable, TextInput, ScrollView} from 'react-native';
+import { View, Image, Pressable, TextInput, ScrollView,Text} from 'react-native';
 
 
 export default function OnlyReadScreen({navigation, route}) {
@@ -13,16 +13,6 @@ export default function OnlyReadScreen({navigation, route}) {
           setText(initialNoteData.notes || '');
         }
       }, [initialNoteData]);
-    
-    const calculateNumberOfLinesjudul = () => {
-      const lines = textjudul.split('\n');
-      return lines.length;
-    }
-    const calculateNumberOfLines = () => {
-      const lines = text.split('\n');
-      return lines.length;
-    };
-  
   
     return (
       <ScrollView backgroundColor= '#202326'>
@@ -37,16 +27,10 @@ export default function OnlyReadScreen({navigation, route}) {
         /></Pressable>
           </View>
         </View>
-        <TextInput
-          style={{ fontSize: 30, fontWeight: 'bold', textAlign: 'left', marginBottom: 20, marginLeft: 30, color: 'white', width: 300,
-          height: 20 + (calculateNumberOfLinesjudul()*35) }}
-          placeholder="Tambahkan Judul"
-          multiline={true}
-          value={textjudul}
-          onChangeText={setTextjudul}
-          placeholderTextColor="grey"
-        />
-        <TextInput
+        <Text
+          style={{ fontSize: 30, fontWeight: 'bold', textAlign: 'left', marginBottom: 20, marginLeft: 30, color: 'white', width: 300}}
+        >{textjudul}</Text>
+        <Text
           style={{
             fontSize: 16,
             fontWeight: 'medium',
@@ -54,16 +38,10 @@ export default function OnlyReadScreen({navigation, route}) {
             marginBottom: 20,
             marginLeft: 32,
             color: 'white',
-            width: 300,
-            height: 50 + (calculateNumberOfLines()*20),
+            width: 335,
             paddingTop: 10,
           }}
-          placeholder="Tambahkan Teks"
-          placeholderTextColor="grey"
-          multiline={true}
-          value={text}
-          onChangeText={setText}
-        />
+        >{text}</Text>
       
       </ScrollView>
     )}
