@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Image, Pressable, TextInput, ScrollView, Text, StyleSheet, Modal} from 'react-native';
+import { View, Image, Pressable, TextInput, ScrollView, StyleSheet} from 'react-native';
+import { addToAndroidCal } from './addToAndroidCal';
 
 
 export default function OnlyEditScreen({navigation, route,notes}) {
     const [text, setText] = useState('');
     const [textjudul, setTextjudul] = useState('');
     const { onNoteSaved, initialNoteData, selectedIndex } = route.params;
-    const [confirmationModalVisible, setConfirmationModalVisible] = useState(false);
 
     useEffect(() => {
         if (initialNoteData) {
@@ -26,10 +26,6 @@ export default function OnlyEditScreen({navigation, route,notes}) {
     
         navigation.goBack();
       };
-
-      const showDateReminder = () => {
-        setConfirmationModalVisible(true);
-      };
   
     return (
       <ScrollView backgroundColor= '#202326'>
@@ -42,7 +38,22 @@ export default function OnlyEditScreen({navigation, route,notes}) {
           style={{width: 20, height: 20, marginLeft: 20, justifyContent: 'flex-start'}}
           source={require('./../assets/images/back.png')}
         /></Pressable>
-        <Pressable onPress={showDateReminder}>
+        <Pressable onPress={() => {
+                  const shareUrl = "https://www.google.com/";
+                
+                  const startDate = new Date();
+                  startDate.setDate(startDate.getDate() + 1);
+                  const endDate = new Date();
+                  endDate.setDate(endDate.getDate() + 2);
+                
+                  addToAndroidCal(
+                    textjudul,
+                    startDate,
+                    endDate,
+                    "Indonesia",
+                    shareUrl
+                  );
+                }}>
             <Image
           style={{width: 20, height: 20, marginLeft: 10, justifyContent: 'flex-center'}}
           source={require('./../assets/images/calendar.png')}
@@ -87,56 +98,6 @@ export default function OnlyEditScreen({navigation, route,notes}) {
           value={text}
           onChangeText={setText}
         />
-      <Modal
-      animationType="slide"
-      transparent={true}
-      visible={confirmationModalVisible}
-      onRequestClose={() => setConfirmationModalVisible(false)}
-    >
-      <View
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              padding: 20,
-              paddingTop: 250,
-              backgroundColor: '#202326',
-              alignItems: 'center',
-            }}
-          >
-            <View>
-              <Text
-                style={{
-                  color: 'white',
-                  fontSize: 20,
-                  fontWeight: 'bold',
-                  marginBottom: 20,
-                  textAlign: 'center',
-                }}
-              >
-                Ingin Menambahkan Reminder?
-              </Text>
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: 'row-reverse',
-                  justifyContent: 'center',
-                  gap: 20,
-                }}
-              >
-                <Pressable style={styles.addButtonY}
-                onPress={() => setConfirmationModalVisible(false)}>
-                  <Text style={{ color: 'white' }}>Ya</Text>
-                </Pressable>
-                <Pressable
-                  onPress={() => setConfirmationModalVisible(false)}
-                  style={styles.addButtonS}
-                >
-                  <Text style={{ color: 'white' }}>Tidak</Text>
-                </Pressable>
-              </View>
-            </View>
-          </View>
-    </Modal>
       </ScrollView>
     )}
 

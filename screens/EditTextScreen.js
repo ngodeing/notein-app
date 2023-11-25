@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Image, Pressable, TextInput, ScrollView, Modal, Text, StyleSheet} from 'react-native';
+import { View, Image, Pressable, TextInput, ScrollView, StyleSheet} from 'react-native';
 import { addToAndroidCal } from './addToAndroidCal';
 
 
@@ -7,7 +7,6 @@ export default function EditTextScreen({navigation, route,notes}) {
     const [text, setText] = useState('');
     const [textjudul, setTextjudul] = useState('');
     const { onNoteSaved, initialNoteData } = route.params;
-    const [confirmationModalVisible, setConfirmationModalVisible] = useState(false);
   
     useEffect(() => {
       // Set initial values when the component mounts
@@ -29,10 +28,6 @@ export default function EditTextScreen({navigation, route,notes}) {
   
       navigation.goBack();
     };
-
-    const showDateReminder = () => {
-      setConfirmationModalVisible(true);
-    };
   
     return (
       <ScrollView backgroundColor= '#202326'>
@@ -45,7 +40,25 @@ export default function EditTextScreen({navigation, route,notes}) {
           style={{width: 20, height: 20, marginLeft: 20, justifyContent: 'flex-start'}}
           source={require('./../assets/images/back.png')}
         /></Pressable>
-        <Pressable onPress={showDateReminder}>
+        <Pressable onPress={() => {
+                  const shareUrl = "https://www.google.com/";
+                
+                  // Assuming you want to set the start date to the 26th of the current month
+                  const startDate = new Date();
+                  startDate.setDate(26);
+                
+                  // Assuming you want to set the end date to the 27th of the current month
+                  const endDate = new Date();
+                  endDate.setDate(27);
+                
+                  addToAndroidCal(
+                    textjudul,
+                    startDate,
+                    endDate,
+                    "Indonesia",
+                    shareUrl
+                  );
+                }}>
             <Image
           style={{width: 20, height: 20, marginLeft: 10, justifyContent: 'flex-center'}}
           source={require('./../assets/images/calendar.png')}
@@ -90,75 +103,6 @@ export default function EditTextScreen({navigation, route,notes}) {
           value={text}
           onChangeText={setText}
         />
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={confirmationModalVisible}
-      onRequestClose={() => setConfirmationModalVisible(false)}
-    >
-      <View
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              padding: 20,
-              paddingTop: 250,
-              backgroundColor: '#202326',
-              alignItems: 'center',
-            }}
-          >
-            <View>
-              <Text
-                style={{
-                  color: 'white',
-                  fontSize: 20,
-                  fontWeight: 'bold',
-                  marginBottom: 20,
-                  textAlign: 'center',
-                }}
-              >
-                Ingin Menambahkan Reminder?
-              </Text>
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: 'row-reverse',
-                  justifyContent: 'center',
-                  gap: 20,
-                }}
-              >
-                <Pressable style={styles.addButtonY}
-                onPress={() => {
-                  const shareUrl = "https://www.youtube.com/watch?v=YysKbNk1tj0&ab_channel=Indently";
-                
-                  // Assuming you want to set the start date to the 26th of the current month
-                  const startDate = new Date();
-                  startDate.setDate(26);
-                
-                  // Assuming you want to set the end date to the 27th of the current month
-                  const endDate = new Date();
-                  endDate.setDate(27);
-                
-                  addToAndroidCal(
-                    "Membuat Aplikasi Mobile",
-                    startDate,
-                    endDate,
-                    "Indonesia",
-                    shareUrl
-                  );
-                }}
-                >
-                  <Text style={{ color: 'white' }}>Ya</Text>
-                </Pressable>
-                <Pressable
-                  onPress={() => setConfirmationModalVisible(false)}
-                  style={styles.addButtonS}
-                >
-                  <Text style={{ color: 'white' }}>Tidak</Text>
-                </Pressable>
-              </View>
-            </View>
-          </View>
-    </Modal>
       </ScrollView>
     )}
 
