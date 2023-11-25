@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Image, Pressable, TextInput, ScrollView, Modal, Text, StyleSheet} from 'react-native';
+import { addToAndroidCal } from './addToAndroidCal';
 
 
 export default function EditTextScreen({navigation, route,notes}) {
@@ -115,7 +116,7 @@ export default function EditTextScreen({navigation, route,notes}) {
                   textAlign: 'center',
                 }}
               >
-                Apakah catatan ini ingin dihapus?
+                Ingin Menambahkan Reminder?
               </Text>
               <View
                 style={{
@@ -125,7 +126,27 @@ export default function EditTextScreen({navigation, route,notes}) {
                   gap: 20,
                 }}
               >
-                <Pressable style={styles.addButtonY}>
+                <Pressable style={styles.addButtonY}
+                onPress={() => {
+                  const shareUrl = "https://www.youtube.com/watch?v=YysKbNk1tj0&ab_channel=Indently";
+                
+                  // Assuming you want to set the start date to the 26th of the current month
+                  const startDate = new Date();
+                  startDate.setDate(26);
+                
+                  // Assuming you want to set the end date to the 27th of the current month
+                  const endDate = new Date();
+                  endDate.setDate(27);
+                
+                  addToAndroidCal(
+                    "Membuat Aplikasi Mobile",
+                    startDate,
+                    endDate,
+                    "Indonesia",
+                    shareUrl
+                  );
+                }}
+                >
                   <Text style={{ color: 'white' }}>Ya</Text>
                 </Pressable>
                 <Pressable

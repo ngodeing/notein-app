@@ -113,7 +113,7 @@ export default function OnlyEditScreen({navigation, route,notes}) {
                   textAlign: 'center',
                 }}
               >
-                Apakah catatan ini ingin dihapus?
+                Ingin Menambahkan Reminder?
               </Text>
               <View
                 style={{
@@ -123,7 +123,8 @@ export default function OnlyEditScreen({navigation, route,notes}) {
                   gap: 20,
                 }}
               >
-                <Pressable style={styles.addButtonY}>
+                <Pressable style={styles.addButtonY}
+                onPress={() => setConfirmationModalVisible(false)}>
                   <Text style={{ color: 'white' }}>Ya</Text>
                 </Pressable>
                 <Pressable
