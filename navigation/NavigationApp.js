@@ -11,10 +11,13 @@ import OnlyEditScreen from '../screens/OnlyEditScreen';
 import NotesScreen from '../screens/NotesScreen';
 import TrashFiles from '../screens/TrashFile';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import usePushNotification from '../hooks/usePushNotification';
 
 const Stack = createStackNavigator();
+
 export default function NavigationApp() {
+
+
   useEffect(() => {
     // Load notes from AsyncStorage when the app starts
     const loadNotes = async () => {

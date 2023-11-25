@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Image, Pressable, TextInput, ScrollView, Modal, Text, StyleSheet} from 'react-native';
 
-
 export default function EditTextScreen({navigation, route,notes}) {
     const [text, setText] = useState('');
     const [textjudul, setTextjudul] = useState('');
@@ -115,7 +114,7 @@ export default function EditTextScreen({navigation, route,notes}) {
                   textAlign: 'center',
                 }}
               >
-                Apakah catatan ini ingin dihapus?
+                Buat Pengingat
               </Text>
               <View
                 style={{
@@ -125,7 +124,7 @@ export default function EditTextScreen({navigation, route,notes}) {
                   gap: 20,
                 }}
               >
-                <Pressable style={styles.addButtonY}>
+                <Pressable style={styles.addButtonY} onPress={() => setConfirmationModalVisible(false)}>
                   <Text style={{ color: 'white' }}>Ya</Text>
                 </Pressable>
                 <Pressable

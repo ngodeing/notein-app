@@ -22,6 +22,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#202326"
       },
+      "googleServicesFile": "./google-services.json",
       "package": "com.taufiknrrr.notein"
     },
     "web": {
@@ -31,6 +32,15 @@
       "eas": {
         "projectId": "00c87bf3-8ced-482e-8c61-57b2aabd43e7"
       }
-    }
+    },
+    "client": [
+      {
+        "api_key": [
+          {
+            "current_key": "AIzaSyDEF18Tvxx3HBh1wdu9WTl2_JL974uI3Aw"
+          }
+        ]
+      }
+    ]
   }
 }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "891742816921",
+    "project_id": "notein-2023",
+    "storage_bucket": "notein-2023.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:891742816921:android:1abdcd987d0384af68c608",
+        "android_client_info": {
+          "package_name": "com.taufiknrrr.notein"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEF18Tvxx3HBh1wdu9WTl2_JL974uI3Aw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
