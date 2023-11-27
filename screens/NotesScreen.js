@@ -4,11 +4,14 @@ import { LongPressGestureHandler } from 'react-native-gesture-handler';
 
 // Import the checkbox and trash icons
 import CheckboxIcon from './../assets/images/checkbox.png';
+import CheckboxIcon2 from './../';
+import CheckboxIconUnchecked from './../assets/images/CheckboxIconUnchecked.jpg';
 import TrashIcon from './../assets/images/t4sampahputih.png';
 
 export default function NotesScreen({ navigation, notes, setNotes, trash, setTrash }) {
   const [selectedNotes, setSelectedNotes] = useState([]);
   const [confirmationModalVisible, setConfirmationModalVisible] = useState(false);
+  const [selectAllChecked, setSelectAllChecked] = useState(false);
 
   useEffect(() => {
     // Reset selectedNotes when the component unmounts or the notes change
@@ -40,27 +43,33 @@ export default function NotesScreen({ navigation, notes, setNotes, trash, setTra
     setTrash([...trash, ...deletedNotes]);
 
     setSelectedNotes([]);
+    setSelectAllChecked(false);
     setConfirmationModalVisible(false);
   };
 
   const toggleSelectNote = (index) => {
-    if (selectedNotes.includes(index)) {
-      // Deselect the note
-      setSelectedNotes((prevSelected) => prevSelected.filter((selected) => selected !== index));
-    } else {
-      // Select the note
-      setSelectedNotes((prevSelected) => [...prevSelected, index]);
-    }
+    setSelectedNotes((prevSelected) => {
+      if (prevSelected.includes(index)) {
+        return prevSelected.filter((selected) => selected !== index);
+      } else {
+        return [...prevSelected, index];
+      }
+    });
   };
 
   const handleSelectAll = () => {
-    if (selectedNotes.length === notes.length) {
-      // Deselect all notes if all are currently selected
-      setSelectedNotes([]);
-    } else {
-      // Select all notes
-      setSelectedNotes([...Array(notes.length).keys()]);
-    }
+    setSelectAllChecked(!selectAllChecked);
+    setSelectedNotes(selectAllChecked ? [] : [...Array(notes.length).keys()]);
+  };
+
+  const handleUnselectAll = () => {
+    setSelectedNotes([]);
+    setSelectAllChecked(false);
+  };
+
+  const handleToggleSelectAll = () => {
+    setSelectAllChecked(!selectAllChecked);
+    setSelectedNotes(selectAllChecked ? [] : [...Array(notes.length).keys()]);
   };
 
   return (
@@ -102,7 +111,44 @@ export default function NotesScreen({ navigation, notes, setNotes, trash, setTra
               marginBottom: 20,
             }}
           >
-            <Text style={styles.judulKiri}>Notes</Text>
+            {selectedNotes.length === 0 ? (
+              <>
+                <Text style={styles.judulKiri}>Notes</Text>
+                <TouchableOpacity onPress={handleSelectAll}>
+                  <Image
+                    style={{
+                      width: 50,
+                      height: 50,
+                      marginRight: -25,
+                      marginTop: -33,
+                      tintColor: selectedNotes.length > 0 ? '#007DFF' : 'white',
+                      zIndex: 1, // Set z-index to keep it above other content
+                    }}
+                    source={selectAllChecked ? CheckboxIcon : CheckboxIconUnchecked}
+                  />
+                </TouchableOpacity>
+                {selectedNotes.length > 0 && (
+                  <Pressable onPress={handleUnselectAll}>
+                    <Text style={{ color: '#FE0000', marginLeft: 10 }}>Batal</Text>
+                  </Pressable>
+                )}
+              </>
+            ) : (
+              <>
+                <Text style={{ color: 'white', marginBottom: 10 }}>Hapus semua catatan?</Text>
+                <TouchableOpacity onPress={handleToggleSelectAll}>
+                  <Image
+                    style={{
+                      width: 30,
+                      height: 30,
+                      marginRight: 10,
+                      tintColor: '#FE0000',
+                    }}
+                    source={selectAllChecked ? CheckboxIconUnchecked : CheckboxIcon}
+                  />
+                </TouchableOpacity>
+              </>
+            )}
             {selectedNotes.length > 0 && (
               <Pressable onPress={showDeleteConfirmation}>
                 <Image
@@ -116,19 +162,6 @@ export default function NotesScreen({ navigation, notes, setNotes, trash, setTra
                 />
               </Pressable>
             )}
-            <TouchableOpacity onPress={handleSelectAll}>
-              <Image
-                style={{
-                  width: 50,
-                  height: 50,
-                  marginRight: -25,
-                  marginTop: -33,
-                  tintColor: selectedNotes.length > 0 ? '#007DFF' : 'white',
-                  zIndex: 1, // Set z-index to keep it above other content
-                }}
-                source={CheckboxIcon}
-              />
-            </TouchableOpacity>
           </View>
           <View
             style={{
@@ -159,18 +192,24 @@ export default function NotesScreen({ navigation, notes, setNotes, trash, setTra
                     <Text style={styles.paragraph} numberOfLines={2}>
                       {note?.notes}
                     </Text>
-                    {selectedNotes.includes(index) && (
+                    <TouchableOpacity
+                      style={{
+                        width: 20,
+                        height: 20,
+                        position: 'absolute',
+                        top: 5,
+                        right: 5,
+                      }}
+                      onPress={() => toggleSelectNote(index)}
+                    >
                       <Image
                         style={{
                           width: 20,
                           height: 20,
-                          position: 'absolute',
-                          top: 5,
-                          right: 5,
                         }}
-                        source={CheckboxIcon}
+                        source={selectedNotes.includes(index) ? CheckboxIcon : CheckboxIconUnchecked}
                       />
-                    )}
+                    </TouchableOpacity>
                   </TouchableOpacity>
                 </View>
               </LongPressGestureHandler>
