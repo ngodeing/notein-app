@@ -21,16 +21,13 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#202326"
-      },
-      "package": "com.taufiknrrr.notein"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "extra": {
-      "eas": {
-        "projectId": "00c87bf3-8ced-482e-8c61-57b2aabd43e7"
-      }
+    "eas": {
+      "projectId": "00c87bf3-8ced-482e-8c61-57b2aabd43e7"
     }
   }
 }

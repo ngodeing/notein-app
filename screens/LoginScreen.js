@@ -13,9 +13,11 @@ export default function LoginScreen({ navigation }) {
   };
 
   const handleDaftar = async () => {
+    const nameRegex = /^[a-zA-Z]+$/; // Regex to allow only letters
+  
     if (nama === '') {
       setErrorText('Nama Tidak boleh kosong');
-    } else if (nama === !/^[a-zA-Z]+$/.test(nama)){
+    } else if (!nameRegex.test(nama)) {
       setErrorText('Nama Hanya huruf dan Tanpa Spasi');
     } else if (email === '') {
       setErrorText('Email Tidak boleh kosong');
@@ -23,6 +25,8 @@ export default function LoginScreen({ navigation }) {
       setErrorText('Sertakan @ pada Email');
     } else if (kataSandi === '') {
       setErrorText('Masukkan kata sandi');
+    } else if (kataSandi.length < 8) {
+      setErrorText('Password harus minimal 8 karakter');
     } else {
       try {
         // Cek apakah nama sudah ada di AsyncStorage
@@ -33,7 +37,7 @@ export default function LoginScreen({ navigation }) {
         } else {
           // Simpan nama ke AsyncStorage
           await AsyncStorage.setItem('nama', nama);
-
+  
           // Lanjutkan dengan navigasi ke PrimaryScreen
           navigation.navigate('Primary', { nama: nama });
         }
