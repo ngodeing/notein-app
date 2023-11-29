@@ -4,8 +4,7 @@ import { LongPressGestureHandler } from 'react-native-gesture-handler';
 
 // Import the checkbox and trash icons
 import CheckboxIcon from './../assets/images/checkbox.png';
-import CheckboxIcon2 from './../';
-import CheckboxIconUnchecked from './../assets/images/CheckboxIconUnchecked.jpg';
+import CheckboxIconUnchecked from './../assets/images/CheckboxIconUnchecked.png';
 import TrashIcon from './../assets/images/t4sampahputih.png';
 
 export default function NotesScreen({ navigation, notes, setNotes, trash, setTrash }) {
@@ -117,11 +116,12 @@ export default function NotesScreen({ navigation, notes, setNotes, trash, setTra
                 <TouchableOpacity onPress={handleSelectAll}>
                   <Image
                     style={{
-                      width: 50,
-                      height: 50,
-                      marginRight: -25,
-                      marginTop: -33,
-                      tintColor: selectedNotes.length > 0 ? '#007DFF' : 'white',
+                      width: 30,
+                      height: 30,
+                      right: 7.5,
+                      position: 'absolute',
+                      marginTop: -25,
+                      tintColor: selectedNotes.length > 0 ? '#007DFF' : '#999999',
                       zIndex: 1, // Set z-index to keep it above other content
                     }}
                     source={selectAllChecked ? CheckboxIcon : CheckboxIconUnchecked}
@@ -135,13 +135,13 @@ export default function NotesScreen({ navigation, notes, setNotes, trash, setTra
               </>
             ) : (
               <>
-                <Text style={{ color: 'white', marginBottom: 10 }}>Hapus semua catatan?</Text>
+                <Text style={{ color: 'white', marginBottom: 5, marginEnd:110 }}>Hapus semua catatan?</Text>
                 <TouchableOpacity onPress={handleToggleSelectAll}>
                   <Image
                     style={{
-                      width: 30,
-                      height: 30,
-                      marginRight: 10,
+                      width: 25,
+                      height: 25,
+                      marginRight: 20,
                       tintColor: '#FE0000',
                     }}
                     source={selectAllChecked ? CheckboxIconUnchecked : CheckboxIcon}
@@ -153,9 +153,8 @@ export default function NotesScreen({ navigation, notes, setNotes, trash, setTra
               <Pressable onPress={showDeleteConfirmation}>
                 <Image
                   style={{
-                    width: 20,
-                    height: 20,
-                    marginLeft: 10,
+                    width: 25,
+                    height: 25,
                     tintColor: '#FE0000',
                   }}
                   source={TrashIcon}
@@ -194,8 +193,8 @@ export default function NotesScreen({ navigation, notes, setNotes, trash, setTra
                     </Text>
                     <TouchableOpacity
                       style={{
-                        width: 20,
-                        height: 20,
+                        width: 30,
+                        height: 30,
                         position: 'absolute',
                         top: 5,
                         right: 5,
@@ -204,8 +203,11 @@ export default function NotesScreen({ navigation, notes, setNotes, trash, setTra
                     >
                       <Image
                         style={{
-                          width: 20,
-                          height: 20,
+                          width: 30,
+                          height: 30,
+                          top: 25,
+                          right: 15,
+                          tintColor: '#999999',
                         }}
                         source={selectedNotes.includes(index) ? CheckboxIcon : CheckboxIconUnchecked}
                       />
@@ -336,6 +338,7 @@ export default function NotesScreen({ navigation, notes, setNotes, trash, setTra
       width: 300,
       textAlign: 'left',
       marginBottom: 30,
+      marginRight: 20,
     },
     judul2Kiri: {
       fontWeight: 'bold',
