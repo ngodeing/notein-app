@@ -3,9 +3,9 @@ import { View, Text, StyleSheet, Image, Pressable, ScrollView, Modal, TouchableO
 import { LongPressGestureHandler, State } from 'react-native-gesture-handler';
 import CheckboxIcon from './../assets/images/checkbox.png';
 import CheckboxIconUnchecked from './../assets/images/CheckboxIconUnchecked.png';
-import TrashIcon from './../assets/images/t4sampahputih.png';
+import TrashIcon from './../assets/images/restore.png';
 
-export default function TrashFiles({ navigation, trash, setTrash }) {
+export default function TrashFiles({ navigation, notes, setNotes, trash, setTrash }) {
   const [selectedTrash, setSelectedTrash] = useState([]);
   const [trashToDelete, setTrashToDelete] = useState(null);
   const [confirmationModalVisible, setConfirmationModalVisible] = useState(false);
@@ -14,6 +14,24 @@ export default function TrashFiles({ navigation, trash, setTrash }) {
   useEffect(() => {
     return () => setSelectedTrash([]);
   }, [trash]);
+
+  const restoreSelectedTrash = () => {
+    // Implement the logic to restore the selected trash items
+    // In this example, I'm moving the restored items back to the notes array.
+    const restoredNotes = trash.filter((_, index) => selectedTrash.includes(index));
+    const updatedNotes = [...notes, ...restoredNotes];
+
+    // Update the notes array with the restored items
+    setNotes(updatedNotes);
+
+    // Remove the restored items from the trash array
+    const updatedTrash = trash.filter((_, index) => !selectedTrash.includes(index));
+    setTrash(updatedTrash);
+
+    setSelectedTrash([]);
+    setSelectAllChecked(false);
+    setConfirmationModalVisible(false);
+  };
 
   const deleteTrash = () => {
     const updatedTrash = trash.filter((_, index) => !selectedTrash.includes(index));
@@ -118,7 +136,7 @@ export default function TrashFiles({ navigation, trash, setTrash }) {
               </>
             ) : (
               <>
-                <Text style={{ color: 'white', marginBottom: 5, marginEnd: 110 }}>Hapus semua catatan?</Text>
+                <Text style={{ color: 'white', marginBottom: 5, marginEnd: 110 }}>Hapus atau Pulihkan?</Text>
                 <TouchableOpacity onPress={handleToggleSelectAll}>
                   <Image
                     style={{
@@ -230,7 +248,7 @@ export default function TrashFiles({ navigation, trash, setTrash }) {
                 textAlign: 'center',
               }}
             >
-              Apakah catatan ini ingin dihapus secara permanen?
+              Apakah catatan ini ingin dihapus atau dipulihkan?
             </Text>
             <View
               style={{
@@ -240,8 +258,11 @@ export default function TrashFiles({ navigation, trash, setTrash }) {
                 gap: 20,
               }}
             >
+              <Pressable onPress={restoreSelectedTrash} style={styles.addButtonH}>
+                <Text style={{ color: 'white' }}>Pulihkan</Text>
+              </Pressable>
               <Pressable onPress={deleteTrash} style={styles.addButtonY}>
-                <Text style={{ color: 'white' }}>Ya</Text>
+                <Text style={{ color: 'white' }}>Hapus</Text>
               </Pressable>
               <Pressable
                 onPress={() => {
@@ -250,7 +271,7 @@ export default function TrashFiles({ navigation, trash, setTrash }) {
                 }}
                 style={styles.addButtonS}
               >
-                <Text style={{ color: 'white' }}>Tidak</Text>
+                <Text style={{ color: 'white' }}>Batal</Text>
               </Pressable>
             </View>
           </View>
@@ -438,6 +459,15 @@ export default function TrashFiles({ navigation, trash, setTrash }) {
       height: 50,
       borderRadius: 15,
       backgroundColor: '#007DFF',
+      alignItems: 'center',
+      justifyContent: 'center',
+      elevation: 5,
+    },
+    addButtonH: {
+      width: 100,
+      height: 50,
+      borderRadius: 15,
+      backgroundColor: '#02ab43',
       alignItems: 'center',
       justifyContent: 'center',
       elevation: 5,
